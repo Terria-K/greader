@@ -1,8 +1,10 @@
 <script lang="ts">
   import { Link } from "svelte-routing";
+  import { createEventDispatcher } from "svelte";
+
+  export const click = createEventDispatcher();
 
   export let link: string | null = null;
-  export let onClick: () => void = () => {};
 </script>
 
 {#if link}
@@ -12,7 +14,7 @@
   </Link>
 </div>
 {:else}
-<button class="button" on:click={onClick}>
+<button class="button" on:click={() => click('click')}>
   <slot/>
 </button>
 {/if}

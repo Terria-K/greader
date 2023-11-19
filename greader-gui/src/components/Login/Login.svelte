@@ -1,6 +1,7 @@
 <script lang="ts">
   import { navigate } from "svelte-routing";
   import { authHandlers, authStore } from "../../composables/authStore";
+  import SubTextButton from "./SubTextButton.svelte";
 
   let register = false;
   let email: string = "";
@@ -52,6 +53,7 @@
 <div class="auth">
   <div class="auth-cover">
     <h1>{register ? "Sign Up" : "Sign In"}</h1>
+
     <form>
       <label>
         <input bind:value={email} type="text" placeholder="Email"/>
@@ -65,39 +67,29 @@
       </label>
       {/if}
       <button on:click|preventDefault={handleSubmit}>{register ? "Sign Up" : "Continue"}</button>
-
     </form>
+
     <span class="error">{error}</span>
     {#if register}
-    <div>
-      <p>
-        Already have an account?
-        <button class="text-button" on:click={() => {
-          register = false;
-          error = "";
-        }}>Sign in</button>
-      </p>
-    </div>
+    <SubTextButton text="Sign in" on:click={() => {
+      register = false;
+      error = "";
+    }}>
+      Already have an account?
+    </SubTextButton>
     {:else}
-    <div>
-      <p>
-        Don't have an account yet?
-        <button class="text-button" on:click={() => {
-          register = true;
-          error = "";
-        }}>Sign up</button>
-      </p>
-    </div>
+    <SubTextButton text="Sign up" on:click={() => {
+      register = true;
+      error = "";
+    }}>
+      Don't have an account yet?
+    </SubTextButton>
     {/if}
   </div>
 </div>
 
 
 <style>
-button {
-  cursor: pointer;
-}
-
 .error {
   color: rgb(255, 94, 94);
 }
@@ -137,6 +129,7 @@ button {
   font-weight: 700;
   transition: 300ms;
   background-color: rgb(231, 231, 231);
+  cursor: pointer;
 }
 
 .auth form button:hover {
@@ -154,14 +147,4 @@ button {
   box-shadow: none;
 }
 
-.text-button {
-  color: rgb(103, 103, 255);
-  background-color: transparent;
-  box-shadow: none;
-  padding: 0.1em;
-}
-
-.text-button:hover {
-  color: rgb(155, 169, 253);
-}
 </style>

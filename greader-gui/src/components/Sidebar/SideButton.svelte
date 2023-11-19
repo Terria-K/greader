@@ -1,14 +1,14 @@
 <script lang="ts">
   import { navigate } from "svelte-routing";
+  import { createEventDispatcher } from "svelte";
+
+  export const click = createEventDispatcher();
 
   export let text: string;
   export let to: string | null = null;
-  export let onClick: (() => void) | (() => Promise<void>) | null = null!;
 
   function toClicked() {
-    if (onClick) {
-      onClick();
-    }
+    click('click');
     navigate(to!, { replace: true });
   }
 </script>
@@ -21,7 +21,7 @@
   <p>{text}</p>
 </button>
 {:else}
-<button on:click={onClick}>
+<button on:click={() => click('click')}>
   <div class="icon">
     <slot/>
   </div>

@@ -9,7 +9,7 @@
 
 <div class="navbar">
   <div class="left-container">
-    <NavbarButton onClick={onClick}>
+    <NavbarButton on:click={onClick}>
       <FaAlignJustify/>
     </NavbarButton>
     <NavbarButton link="/home">

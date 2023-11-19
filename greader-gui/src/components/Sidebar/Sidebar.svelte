@@ -23,7 +23,7 @@
     <SideButton text="Settings" to="/settings">
       <FaCog/>
     </SideButton>
-    <SideButton text="Logout" onClick={logout}>
+    <SideButton text="Logout" on:click={logout}>
       <IoMdLogOut/>
     </SideButton>
   </div>
