@@ -1,14 +1,34 @@
 <script lang="ts">
+  import { navigate } from "svelte-routing";
+
   export let text: string;
+  export let to: string | null = null;
   export let onClick: (() => void) | (() => Promise<void>) | null = null!;
+
+  function toClicked() {
+    if (onClick) {
+      onClick();
+    }
+    navigate(to!, { replace: true });
+  }
 </script>
 
+{#if to}
+<button on:click={toClicked}>
+  <div class="icon">
+    <slot/>
+  </div>
+  <p>{text}</p>
+</button>
+{:else}
 <button on:click={onClick}>
   <div class="icon">
     <slot/>
   </div>
   <p>{text}</p>
 </button>
+{/if}
+
 
 <style>
 button {

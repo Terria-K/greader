@@ -1,7 +1,7 @@
 <script lang="ts">
   import Navbar from "./components/Navbar/Navbar.svelte";
   import { AuthApp } from './firebase';
-  import { authStore } from './composables/stores';
+  import { authStore } from './composables/authStore';
   import Sidebar from "./components/Sidebar/Sidebar.svelte";
   import Home from "./components/Home/Home.svelte";
   import Login from "./components/Login/Login.svelte";

@@ -4,7 +4,7 @@
   import FaCog from 'svelte-icons/fa/FaCog.svelte';
   import IoMdLogOut from 'svelte-icons/io/IoMdLogOut.svelte'
   import SideButton from "./SideButton.svelte";
-  import { authHandlers } from "../../composables/stores";
+  import { authHandlers } from "../../composables/authStore";
   export let active: boolean;
 
   async function logout() {
@@ -14,13 +14,13 @@
 
 <div class="sidebar" class:open={active}>
   <div class="menus">
-    <SideButton text="Home">
+    <SideButton text="Home" to="/home">
       <FaHome/>
     </SideButton>
-    <SideButton text="Grades">
+    <SideButton text="Grades" to="/grades">
       <FaRegEdit/>
     </SideButton>
-    <SideButton text="Settings">
+    <SideButton text="Settings" to="/settings">
       <FaCog/>
     </SideButton>
     <SideButton text="Logout" onClick={logout}>
