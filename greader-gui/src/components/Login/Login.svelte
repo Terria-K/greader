@@ -115,11 +115,13 @@ button {
 .auth-cover {
   display: flex;
   flex-direction: column;
-  width: 280px;
+  width: 450px;
   background-color: rgb(19, 18, 18);
   text-align: center;
   border-radius: 8px;
   box-shadow: 2px 4px 3px rgb(19, 18, 18);
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .auth form {
