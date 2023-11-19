@@ -2,11 +2,9 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
-import { getAuth } from "firebase/auth";
+import { GoogleAuthProvider, getAuth } from "firebase/auth";
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
+const GoogleProvider = new GoogleAuthProvider();
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_APIKEY,
@@ -23,4 +21,4 @@ const app = initializeApp(firebaseConfig);
 const FirestoreApp = getFirestore(app);
 const AuthApp = getAuth(app);
 
-export { FirestoreApp, AuthApp }
+export { FirestoreApp, AuthApp, GoogleProvider }

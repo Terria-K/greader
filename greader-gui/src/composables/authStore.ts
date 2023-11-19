@@ -1,6 +1,6 @@
-import { createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updateEmail, updatePassword, type User } from "firebase/auth";
+import { createUserWithEmailAndPassword, GoogleAuthProvider, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut, updateEmail, updatePassword, type User } from "firebase/auth";
 import { writable } from "svelte/store";
-import { AuthApp } from "../firebase";
+import { AuthApp, GoogleProvider } from "../firebase";
 
 export type AuthUser = {
     isLoading: boolean,
@@ -21,6 +21,9 @@ export const authHandlers = {
     },
     login: async (email: string, password: string) => {
         await signInWithEmailAndPassword(AuthApp, email, password);
+    },
+    googleLogin: async () => {
+        await signInWithPopup(AuthApp, GoogleProvider);
     },
     resetPassword: async (email: string) => {
         await sendPasswordResetEmail(AuthApp, email);

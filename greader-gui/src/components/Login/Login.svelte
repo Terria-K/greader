@@ -1,6 +1,7 @@
 <script lang="ts">
   import { navigate } from "svelte-routing";
   import { authHandlers, authStore } from "../../composables/authStore";
+  import FaGoogle from 'svelte-icons/fa/FaGoogle.svelte'
   import SubTextButton from "./SubTextButton.svelte";
 
   let register = false;
@@ -15,6 +16,15 @@
       navigate("/home", { replace: true });
     }
   })
+
+  async function handleGoogleSubmit() {
+    try {
+      await authHandlers.googleLogin();
+    } catch (e) {
+      console.log(e);
+      error = "Failed to sign in google";
+    }
+  }
 
   async function handleSubmit() {
     if (!email || !password || (register && !confirmation)) {
@@ -85,11 +95,33 @@
       Don't have an account yet?
     </SubTextButton>
     {/if}
+
+    <p>Sign in with:</p> 
+    <div class="others">
+      <button class="google" on:click={handleGoogleSubmit}>
+        <FaGoogle/>
+      </button>
+    </div>
   </div>
 </div>
 
 
 <style>
+.others {
+  justify-content: center;
+  display: flex;
+}
+
+.others button {
+  cursor: pointer;
+  color: white;
+  background-color: transparent;
+  padding-bottom: 30px;
+  width: 80px;
+  height: 80px;
+  box-shadow: none;
+}
+
 .error {
   color: rgb(255, 94, 94);
 }

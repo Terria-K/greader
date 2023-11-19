@@ -15,7 +15,6 @@
   onMount(() => {
     const unsubscribe = AuthApp.onAuthStateChanged((user) => {
       if (user) {
-        console.log(user);
         authStore.update(x => {
           return { ...x, isLoading: false, currentUser: user }
         });
@@ -47,7 +46,6 @@
       <Login/>
     </Route>
     <Route path="home">
-
       <Home/>
     </Route>
   </Router>
