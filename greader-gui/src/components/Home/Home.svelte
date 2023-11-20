@@ -10,7 +10,7 @@
 <style>
 .home {
   display: flex;
-  padding: 60px 16px;
+  padding: 66px 16px;
 }
 
 </style>

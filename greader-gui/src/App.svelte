@@ -7,6 +7,7 @@
   import Login from "./components/Login/Login.svelte";
   import { onMount } from "svelte";
   import { Route, Router } from "svelte-routing"
+  import Grades from "./components/Grades/Grades.svelte";
 
   $: active = false;
   export let url = "";
@@ -47,6 +48,9 @@
     </Route>
     <Route path="home">
       <Home/>
+    </Route>
+    <Route path="grades">
+      <Grades/>
     </Route>
   </Router>
 </main>
