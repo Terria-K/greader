@@ -23,6 +23,7 @@
 <style>
 
 .button {
+  padding: 0.6em 0.6em;
   justify-content: center;
   color: white;
   cursor: pointer;
