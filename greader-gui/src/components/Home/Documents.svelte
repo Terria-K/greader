@@ -4,7 +4,11 @@
 
 <div class="documents">
   <div class="documents-holder">
-    <p class="documents-title">Previously opened</p>
+    <p class="documents-title">Documents</p>
+    <div>
+      <button>Create</button>
+      <button class="import-button">+ Import</button>
+    </div>
   </div>
 
   <div class="documents-list">
@@ -36,7 +40,38 @@
 .documents-holder {
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
+
+.documents-holder p {
+  margin-bottom: 8px;
+}
+
+
+.import-button {
+  background-color: rgb(95, 209, 114) !important;
+}
+
+.import-button:hover {
+  background-color: rgb(124, 255, 124) !important;
+}
+
+.documents-holder button {
+  font-weight: bold;
+  border-radius: 4px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 6px;
+  background-color: rgb(126, 126, 126);
+  cursor: pointer;
+  transition: 300ms;
+}
+
+.documents-holder button:hover {
+  background-color: rgb(206, 206, 206);
+}
+
 
 .documents-list {
   overflow-y: scroll;

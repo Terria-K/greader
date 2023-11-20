@@ -1,9 +1,32 @@
+<script lang="ts">
+  import IoIosClose from 'svelte-icons/io/IoIosClose.svelte'
+</script>
+
 <button>
   <slot/>
+  <button class="icon">
+    <IoIosClose/>
+  </button>
 </button>
 
 <style>
+.icon {
+  padding: 0;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  transition: 300ms;
+  border-radius: 50%;
+}
+
+.icon:hover {
+  background-color: rgb(119, 119, 119);
+}
+
 button {
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
   font-weight: bold;
   text-align: left;
   background-color: transparent;
