@@ -3,8 +3,15 @@
   import NavbarButton from './NavbarButton.svelte';
   import MdAccountCircle from 'svelte-icons/md/MdAccountCircle.svelte'
   import WiMoonAltWaxingCrescent3 from 'svelte-icons/wi/WiMoonAltWaxingCrescent3.svelte'
+  import { storageHandlers } from '../../composables/storageStore';
+  import Avatar from './Avatar.svelte';
 
   export let onClick: () => void;
+  let files: FileList | null = null;
+
+  async function getAvatar() {
+    return await storageHandlers.getAvatarURL();
+  }
 </script>
 
 <div class="navbar">
@@ -28,7 +35,11 @@
       <WiMoonAltWaxingCrescent3/>
     </NavbarButton>
     <NavbarButton>
-      <MdAccountCircle/>
+{#await getAvatar()}
+    <MdAccountCircle/>
+{:then x} 
+    <Avatar url={x}/>
+{/await}
     </NavbarButton>
   </div>
 </div>
