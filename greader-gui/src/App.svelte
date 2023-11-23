@@ -8,6 +8,7 @@
   import { onMount } from "svelte";
   import { Route, Router } from "svelte-routing"
   import Grades from "./components/Grades/Grades.svelte";
+  import Fade from "./components/Fade.svelte";
 
   $: active = false;
   export let url = "";
@@ -37,6 +38,8 @@
 
 <main class="main">
   <Router {url}>
+    <Fade open={active}/>
+
 {#if $authStore.currentUser}
     <Navbar onClick={() => {
       active = !active;
