@@ -25,10 +25,10 @@ export type SubjectsCollection = {
 export type Subjects = {
     id: string,
     name: string,
-    activities: any[]
+    activities: { [key: string]: Activity }[]
 }
 
-export type Activities = {
+export type Activity = {
     maxScore: number,
     percentage: number
 }

@@ -41,7 +41,6 @@
 
 </script>
 <div class="grades">
-
   <div class="middle">
     <div class="buttons">
       <button>Create</button>

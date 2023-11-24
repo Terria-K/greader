@@ -17,11 +17,8 @@
     totalGrade = 0;
     const activityLength = activities.size;
     activities.forEach((x, k) => {
-      console.log(data.activities[0]);
-      // Map<string, Activities>
-      const dataAct: any = data.activities[0];
-      const maxScore = dataAct[k]?.maxScore;
-      let grade = x / maxScore!;
+      const maxScore = data.activities[0][k].maxScore;
+      let grade = x / maxScore;
       totalGrade += grade* 100;
 
       let obj = {
@@ -50,9 +47,9 @@
     {/each}
         </tr>
         <tr>
-    {#each [...activities] as [key, value], index}
+    {#each [...activities] as [key, value]}
           <td>
-            <p class="value">{value}/{data.activities[0][key]?.maxScore}</p>
+            <p class="value">{value}/{data.activities[0][key].maxScore}</p>
           </td>
     {/each}
         </tr>
