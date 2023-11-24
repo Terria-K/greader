@@ -1,10 +1,11 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import type { Activity } from "../../composables/activityStore";
+  import type { Subjects } from "../../composables/stores";
 
   export let subject: string;
+  export let data: Subjects;
 
-  export let activities: Activity[];
+  export let activities: Map<string, number>; 
 
   $: totalGrade = 0;
 
@@ -14,9 +15,23 @@
 
   function updateTotalGrade() {
     totalGrade = 0;
-    const activityLength = activities.length;
-    activities.forEach(x => {
-      totalGrade += +x.score;
+    const activityLength = activities.size;
+    activities.forEach((x, k) => {
+      console.log(data.activities[0]);
+      // Map<string, Activities>
+      const dataAct: any = data.activities[0];
+      const maxScore = dataAct[k]?.maxScore;
+      let grade = x / maxScore!;
+      totalGrade += grade* 100;
+
+      let obj = {
+        name: "Name"
+      }
+
+      const n = "name";
+
+      obj[n];
+
     })
 
     totalGrade /= activityLength;
@@ -27,64 +42,59 @@
 <div class="component">
   <div>
     <p>{subject}</p>
-    <table>
-      <tr>
-  {#each activities as activity}
-        <th>{activity.name}</th>
-  {/each}
-      </tr>
-      <tr>
-  {#each activities as activity}
-        <td>
-          <input type="number" placeholder="0.00" bind:value={activity.score}/>
-        </td>
-  {/each}
-      </tr>
-    </table>
-    <p class="average">Average: {totalGrade.toFixed(2)}%</p>
-    <button on:click={updateTotalGrade}>Update</button>
+    <div class="table-holder">
+      <table>
+        <tr>
+    {#each [...activities] as [key, _]}
+          <th>{key}</th>
+    {/each}
+        </tr>
+        <tr>
+    {#each [...activities] as [key, value], index}
+          <td>
+            <p class="value">{value}/{data.activities[0][key]?.maxScore}</p>
+          </td>
+    {/each}
+        </tr>
+      </table>
+    </div>
   </div>
-
+  <div class="button-holder">
+    <p class="average">Average: {totalGrade.toFixed(2)}%</p>
+  </div>
 </div>
 
 <style>
+.table-holder {
+  width: 100%;
+  overflow-x: auto;
+}
+
 p {
   text-align: center;
   font-size: 20px;
   font-weight: bold;
   height: 10px;
 }
-input {
-  width: 50px;
-  height: 20px;
-  box-shadow: none;
-  background-color: transparent;
-  color: white;
-  border-radius: 2px;
-  padding-left: 0.2em;
-  padding-right: 0.2em;
-  transition: 300ms;
+
+.button-holder {
+  display: flex;
+  width: 100%;
+  align-items: center;
 }
 
-button {
-  background-color: rgb(189, 189, 189);
-  cursor: pointer;
-  font-weight: bold;
-}
-
-input:focus {
-  outline: none;
-  background-color: rgb(53, 53, 53);
+.value {
+  font-size: 16px;
+  font-weight: 200;
+  margin-top: 0.5rem;
 }
 
 .component {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   padding: 0.2em 0.4em 0.2em;
-  min-width: 200px;
-  min-height: 80px;
+
+  width: 400px;
   border-radius: 4px;
   box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.2);
   background-color: rgb(66, 66, 66);
@@ -94,14 +104,8 @@ input:focus {
 .component div {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center; 
 }
 
-
-td {
-  text-align: center;
-}
 
 tr {
   text-align: center;
@@ -109,7 +113,6 @@ tr {
 
 table, th, td, tr {
   border: 2px solid rgb(29, 29, 29);
-  border-radius: 10px;
   border-collapse: collapse;
 }
 
@@ -122,13 +125,4 @@ table, th, td, tr {
   margin-bottom: 16px;
 }
 
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-input[type=number] {
-  appearance: textfield;
-}
 </style>

@@ -50,14 +50,16 @@
 
 
 .import-button {
-  background-color: rgb(95, 209, 114) !important;
+  color: white;
+  background-color: rgb(61, 139, 74) !important;
 }
 
 .import-button:hover {
-  background-color: rgb(124, 255, 124) !important;
+  background-color: rgb(95, 209, 114) !important;
 }
 
 .documents-holder button {
+  color: white;
   font-weight: bold;
   border-radius: 4px;
   padding-top: 6px;
