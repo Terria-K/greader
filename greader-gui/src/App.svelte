@@ -9,6 +9,7 @@
   import { Route, Router } from "svelte-routing"
   import Grades from "./components/Grades/Grades.svelte";
   import Fade from "./components/Fade.svelte";
+  import Todo from "./components/Todo/Todo.svelte";
 
   $: active = false;
   export let url = "";
@@ -51,6 +52,9 @@
     </Route>
     <Route path="home">
       <Home/>
+    </Route>
+    <Route path="todo">
+      <Todo/>
     </Route>
     <Route path="grades">
       <Grades/>
