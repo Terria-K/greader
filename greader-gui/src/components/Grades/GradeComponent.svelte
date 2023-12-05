@@ -20,15 +20,6 @@
       const maxScore = data.activities[0][k].maxScore;
       let grade = x / maxScore;
       totalGrade += grade* 100;
-
-      let obj = {
-        name: "Name"
-      }
-
-      const n = "name";
-
-      obj[n];
-
     })
 
     totalGrade /= activityLength;
