@@ -7,14 +7,16 @@
 
 <style>
 .fade {
+  pointer-events: none;
   position: fixed;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.0);
-  display: none;
+  transition: 300ms;
 }
 
 .open {
+  pointer-events: all;
   display: block;
   background-color: rgba(0, 0, 0, 0.5);
 }
