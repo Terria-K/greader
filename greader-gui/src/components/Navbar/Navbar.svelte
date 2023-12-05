@@ -19,7 +19,7 @@
     <NavbarButton on:click={onClick}>
       <FaAlignJustify/>
     </NavbarButton>
-    <NavbarButton link="/home">
+    <!-- <NavbarButton link="/home">
       <span class="navbar-text">Home</span>
     </NavbarButton>
     <NavbarButton link="/faq">
@@ -27,7 +27,7 @@
     </NavbarButton>
     <NavbarButton link="/support">
       <span class="navbar-text">Support</span>
-    </NavbarButton>
+    </NavbarButton> -->
   </div>
 
   <div class="right-container">
@@ -68,7 +68,7 @@
   padding-right: 8px;
 }
 
-.navbar-text {
+/* .navbar-text {
   font-weight: bold;
-}
+} */
 </style>

@@ -2,7 +2,7 @@
   import { Link } from "svelte-routing";
   import { createEventDispatcher } from "svelte";
 
-  export const click = createEventDispatcher();
+  const click = createEventDispatcher();
 
   export let link: string | null = null;
 </script>
