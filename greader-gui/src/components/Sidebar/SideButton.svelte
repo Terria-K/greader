@@ -2,7 +2,7 @@
   import { navigate } from "svelte-routing";
   import { createEventDispatcher } from "svelte";
 
-  export const click = createEventDispatcher();
+  const click = createEventDispatcher();
 
   export let text: string;
   export let to: string | null = null;
