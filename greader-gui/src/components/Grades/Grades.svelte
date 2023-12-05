@@ -1,70 +1,90 @@
 <script lang="ts">
   import { doc, getDoc } from "firebase/firestore";
-  import GradeComponent from "./GradeComponent.svelte";
   import { FirestoreApp } from "../../firebase";
-  import { students, studentsRefreshed, type Students, type Subjects } from "../../composables/stores";
+  import { students, studentsRefreshed, type Students, type Subjects, type SubjectsCollection } from "../../composables/stores";
+  import GradeComponent from "./GradeComponent.svelte";
   import Checkbox from "../Checkbox/Checkbox.svelte";
+  import GradesCreateModal from "./GradesCreateModal.svelte";
+  import GradesEditModal from "./GradesEditModal.svelte";
 
   let showOnlyAssignedSubjects: boolean = false;
+  let showCreateModal: boolean = false;
+  let showEditModal: boolean = false;
+  let currentStudentID = "fZ4BPg09Ra1z8iK7eF8D"
 
-  async function getSubjects() {
-    if ($students.length > 0 && $studentsRefreshed) {
+
+  async function getSubjectsFromStudent() {
+    if ($students && $studentsRefreshed) {
       return $students;
     }
-    const studentDocRef = doc(FirestoreApp, "students/fZ4BPg09Ra1z8iK7eF8D");
+    $students = null;
+    const studentDocRef = doc(FirestoreApp, "students/" + currentStudentID);
     const studentDoc = await getDoc(studentDocRef);
     const data = studentDoc.data();
 
     if (data) {
-      const map = new Map<string, number>();
-      for (const [key, value] of Object.entries(data.subjects[0].activityScore)) {
-        map.set(key, value as number);
-      }
-      const subjectDoc = await getDoc(data.subjects[0].subject);
       const studentsData: Students = {
         name: data.name,
         usn: data.usn,
-        subjects: {
-          activityScore: map,
-          subject: subjectDoc.data() as Subjects
-        },
+        subjects: [],
         id: data.id
       };
-      $students = [studentsData, ...$students];
+
+      for (let i = 0; i < data.subjects.length; i++) {
+        const map = new Map<string, number>();
+        const sub: SubjectsCollection = data.subjects[i];
+        for (const [key, value] of Object.entries(sub.activityScore)) {
+          map.set(key, value as number);
+        }
+        const subjectDoc = await getDoc(sub.subject as any); // Cannot do it without any
+
+        studentsData.subjects.push({
+          activityScore: map,
+          subject: subjectDoc.data() as Subjects
+        })
+      }
+
+      $students = studentsData;
     }
 
     $studentsRefreshed = true;
 
-    return $students;
+    return $students!;
   }
-
-
 </script>
+
+{#if showCreateModal}
+<GradesCreateModal on:close={() => showCreateModal = false} {currentStudentID}/>
+{/if}
+{#if showEditModal}
+<GradesEditModal on:close={() => showEditModal = false}/>
+{/if}
+
 <div class="grades">
   <div class="middle">
     <div class="buttons">
-      <button>Create</button>
-      <button id="edit">Edit</button>
+      <button on:click={() => showCreateModal = true}>Create</button>
+      <button on:click={() => showEditModal = true} id="edit">Edit</button>
     </div>
-{#await getSubjects()}
+{#key $studentsRefreshed}
+{#await getSubjectsFromStudent()}
     <div>
       Loading..
     </div>
-{:then subjects} 
-    <div>
-      <Checkbox id="assigned-subjects" name="assigned-subjects" bind:checked={showOnlyAssignedSubjects}>
-        Show only assigned subjects
-      </Checkbox>
-    </div>
+{:then students} 
+    <Checkbox id="assigned-subjects" name="assigned-subjects" bind:checked={showOnlyAssignedSubjects}>
+      Show only assigned subjects
+    </Checkbox>
     <div class="component-lists">
-    {#each subjects as subject}
-      <GradeComponent data={subject.subjects.subject} subject={subject.subjects.subject.name} activities={subject.subjects.activityScore }/>
+    {#each students.subjects as subject}
+      <GradeComponent data={subject.subject} subject={subject.subject.name} activities={subject.activityScore }/>
     {/each}
     </div>
 {/await}
-
+{/key}
   </div>
 </div>
+
 
 <style lang="less">
 #edit {
