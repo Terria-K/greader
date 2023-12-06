@@ -12,10 +12,55 @@
   const todoColleciton = collection(FirestoreApp, "todo")
 
   async function addItem() {
+    const calendar = new Date();
+    const year = calendar.getUTCFullYear();
+    const month = calendar.getUTCMonth();
+    const day = calendar.getUTCDate();
+
+    let monthLetter = "";
+    switch (month) {
+      case 0: 
+        monthLetter = "January";
+        break;
+      case 1: 
+        monthLetter = "February";
+        break;
+      case 2: 
+        monthLetter = "March";
+        break;
+      case 3: 
+        monthLetter = "April";
+        break;
+      case 4: 
+        monthLetter = "May";
+        break;
+      case 5: 
+        monthLetter = "June";
+        break;
+      case 6: 
+        monthLetter = "July";
+        break;
+      case 7: 
+        monthLetter = "August";
+        break;
+      case 8: 
+        monthLetter = "September";
+        break;
+      case 9: 
+        monthLetter = "October";
+        break;
+      case 10: 
+        monthLetter = "November";
+        break;
+      case 11: 
+        monthLetter = "December";
+        break;
+    }
+
     const todo: Todo = {
       name: inputText,
       description: "",
-      date: "",
+      date: `${monthLetter} ${day}, ${year}`,
       isDone: false
     };
 
@@ -62,12 +107,16 @@
       <Checkbox checked={todo.isDone} on:click={(e) => {
         onChecked(e.detail, todo);
       }}>{todo.name}</Checkbox>
-      <div class="trash">
-        <button class="trash-button" on:click={() => deleteItem(todo)}>
-          <IoMdTrash/>
-        </button>
+      <div class="container">
+        <div class="date">
+          <p>{todo.date}</p>
+        </div>
+        <div class="trash">
+          <button class="trash-button" on:click={() => deleteItem(todo)}>
+            <IoMdTrash/>
+          </button>
+        </div>
       </div>
-
     </div>
   </li>
 {/each}
@@ -94,6 +143,19 @@
 
 .trash-button:hover {
   color: rgb(156, 156, 156);
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  height: 48px;
+}
+
+.date {
+  display: flex;
+  font-size: 16px;
+  color: gray;
+  font-weight: bold;
 }
 
 .create-button {
@@ -134,6 +196,7 @@
   border-radius: 10px;
   box-shadow: 0 2px 0px 0px rgb(61, 139, 74);
   margin-bottom: 5px;
+  padding-bottom: 0;
  }
 
 
