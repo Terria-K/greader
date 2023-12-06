@@ -1,11 +1,21 @@
 <script lang="ts">
+  import { createEventDispatcher } from "svelte";
+
   export let id: string = "";
   export let name: string = "";
   export let checked = false;
+
+  const click = createEventDispatcher<{ click: boolean }>();
+
+  function onClick() {
+    click('click', !checked);
+  }
+
+
 </script>
 
 <label class="container">
-  <input type="checkbox" {id} {name} bind:checked={checked}/>
+  <input type="checkbox" {id} {name} bind:checked={checked} on:click|preventDefault={onClick}/>
   <div>
     <slot/>
   </div>
@@ -17,7 +27,7 @@ div {
 }
 .container {
   display: flex;
-  justify-content: center;
+  justify-content: baseline;
   margin-top: 5px;
   margin-bottom: 5px;
 }
