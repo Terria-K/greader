@@ -1,40 +1,49 @@
 <script lang="ts">
-  import DocumentButton from "./DocumentButton.svelte";
+  export let title = "1ST Year";
+  export let name = "BSIT11E";
 </script>
 
 <div class="documents">
   <div class="documents-holder">
-    <p class="documents-title">Documents</p>
-    <div>
-      <button>Create</button>
-      <button class="import-button">+ Import</button>
-    </div>
+    <h1>{title}</h1>
+    <p class="documents-title">{name}</p>
+    <button>View</button>
   </div>
 
-  <div class="documents-list">
-    <DocumentButton>Computer Programming</DocumentButton>
-    <DocumentButton>Platform Technology</DocumentButton>
-    <DocumentButton>Computer Programming</DocumentButton>
-    <DocumentButton>Computer Programming</DocumentButton>
-    <DocumentButton>Computer Programming</DocumentButton>
-    <DocumentButton>Platform Technology</DocumentButton>
-    <DocumentButton>Platform Technology</DocumentButton>
-    <DocumentButton>Platform Technology</DocumentButton>
-  </div>
 </div>
 
 <style>
+button {
+  padding: 10px;
+  border-radius: 10px;
+  color: white;
+  background-color: rgb(61, 139, 74);
+  transition: 300ms;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+button:hover {
+  background-color: rgb(95, 209, 114);
+}
+
 .documents {
   background-color: rgb(66, 66, 66);
   border-radius: 4px;
   box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.2);
-  width: 350px;
-  height: 350px;
+  width: auto;
+  height: auto;
+  margin-left: 6px;
+  margin-bottom: 10px;
+  min-width: 220px;
+  min-height: 120px;
 }
 
+
 .documents-title {
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 1px;
 }
 
 .documents-holder {
@@ -43,50 +52,6 @@
   align-items: center;
   flex-direction: column;
 }
-
-.documents-holder p {
-  margin-bottom: 8px;
-}
-
-
-.import-button {
-  color: white;
-  background-color: rgb(61, 139, 74) !important;
-}
-
-.import-button:hover {
-  background-color: rgb(95, 209, 114) !important;
-}
-
-.documents-holder button {
-  color: white;
-  font-weight: bold;
-  border-radius: 4px;
-  padding-top: 6px;
-  padding-bottom: 6px;
-  margin-bottom: 6px;
-  background-color: rgb(126, 126, 126);
-  cursor: pointer;
-  transition: 300ms;
-}
-
-.documents-holder button:hover {
-  background-color: rgb(206, 206, 206);
-}
-
-
-.documents-list {
-  overflow-y: scroll;
-  scroll-behavior: smooth;
-  height: 240px;
-  background-color: rgb(46, 46, 46);
-  margin-left: 10px;
-  margin-right: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 
 
 </style>
