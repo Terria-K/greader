@@ -5,6 +5,7 @@ export type Todo = {
     name: string,
     description: string,
     date: string,
+    createdAt: number,
     isDone: boolean
 }
 

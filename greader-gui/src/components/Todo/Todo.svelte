@@ -3,16 +3,18 @@
   import IoMdTrash from 'svelte-icons/io/IoMdTrash.svelte'
   import Checkbox from "../Checkbox/Checkbox.svelte";
   import { sineIn } from "svelte/easing";
-  import { addDoc, collection, deleteDoc, doc, onSnapshot, updateDoc } from "firebase/firestore";
+  import { addDoc, collection, deleteDoc, doc, onSnapshot, updateDoc, type Unsubscribe, orderBy, query } from "firebase/firestore";
   import { FirestoreApp } from "../../firebase";
   import { todos, type Todo } from "../../composables/todoStore";
+  import { onDestroy, onMount } from "svelte";
 
   let inputText: string = "";
 
-  const todoColleciton = collection(FirestoreApp, "todo")
+  const todoCollection = query(collection(FirestoreApp, "todo"), orderBy("date", "asc"));
 
   async function addItem() {
     const calendar = new Date();
+    const createdAt = Date.now();
     const year = calendar.getUTCFullYear();
     const month = calendar.getUTCMonth();
     const day = calendar.getUTCDate();
@@ -60,11 +62,12 @@
     const todo: Todo = {
       name: inputText,
       description: "",
+      createdAt: createdAt,
       date: `${monthLetter} ${day}, ${year}`,
       isDone: false
     };
 
-    await addDoc(todoColleciton, todo);
+    await addDoc(collection(FirestoreApp, "todo"), todo);
     inputText = "";
   }
 
@@ -83,13 +86,21 @@
     await updateDoc(todoc, newTodo);
   }
 
-  onSnapshot(todoColleciton, querySnapshot => {
-    let todoList: Todo[] = [];
-    querySnapshot.forEach((doc) => {
-      const todo: Todo = { ...doc.data(), id: doc.id } as Todo;
-      todoList = [todo, ...todoList];
+  let snapshotUnsubscriber: Unsubscribe
+
+  onMount(() => {
+    snapshotUnsubscriber = onSnapshot(todoCollection, querySnapshot => {
+      let todoList: Todo[] = [];
+      querySnapshot.forEach((doc) => {
+        const todo: Todo = { ...doc.data(), id: doc.id } as Todo;
+        todoList = [todo, ...todoList];
+      })
+      $todos = todoList;
     })
-    $todos = todoList;
+  })
+
+  onDestroy(() => {
+    snapshotUnsubscriber();
   })
 
 </script>
