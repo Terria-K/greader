@@ -10,7 +10,7 @@
 
   let inputText: string = "";
 
-  const todoCollection = query(collection(FirestoreApp, "todo"), orderBy("date", "asc"));
+  const todoCollection = query(collection(FirestoreApp, "todo"), orderBy("createdAt", "asc"));
 
   async function addItem() {
     const calendar = new Date();
