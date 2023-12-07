@@ -54,4 +54,7 @@ a.canClick:hover {
 .on {
   color: gray;
 }
+.on:hover {
+  color: gray;
+}
 </style>
