@@ -1,11 +1,18 @@
 <script>
-  import Documents from "./Documents.svelte";
+  import CreateDocumentModal from "../Document/CreateDocumentModal.svelte";
+  import Documents from "../Document/Documents.svelte";
+  import EmptyDocument from "../Document/EmptyDocument.svelte";
 
+  let createActive = false;
 
 </script>
+
+<CreateDocumentModal bind:active={createActive}/>
+
 <div class="home">
   <p>GREADER</p>
   <div class="sections">
+    <EmptyDocument on:click={() => createActive = true}/>
     <Documents/>
     <Documents/>
     <Documents/>

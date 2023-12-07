@@ -76,10 +76,11 @@
         <input bind:value={confirmation} type="password" placeholder="Confirm Password"/>
       </label>
       {/if}
+
+      <span class="error">{error}</span>
       <button on:click|preventDefault={handleSubmit}>{register ? "Sign Up" : "Continue"}</button>
     </form>
 
-    <span class="error">{error}</span>
     {#if register}
     <SubTextButton text="Sign in" on:click={() => {
       register = false;

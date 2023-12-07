@@ -1,21 +1,33 @@
-<script lang="ts">
-  export let title = "1ST Year";
-  export let name = "BSIT11E";
+<script>
+  import { createEventDispatcher } from "svelte";
+
+  const click = createEventDispatcher();
 </script>
 
 <div class="documents">
   <div class="documents-holder">
-    <h1>{title}</h1>
+    <h1>Create Document</h1>
     <p class="documents-title">{name}</p>
-    <button>View</button>
+    <div class="viewbutton">
+      <button on:click={() => click('click')}>+</button>
+    </div>
   </div>
-
 </div>
 
 <style>
+h1 {
+  font-size: 20px;
+}
+
+.viewbutton {
+  margin-top: 1.8rem;
+}
+
 button {
   padding: 10px;
-  border-radius: 10px;
+  font-weight: bold;
+  width: 40px;
+  border-radius: 50%;
   color: white;
   background-color: rgb(61, 139, 74);
   transition: 300ms;
@@ -48,10 +60,8 @@ button:hover {
 
 .documents-holder {
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
+  height: 100%;
 }
-
-
 </style>

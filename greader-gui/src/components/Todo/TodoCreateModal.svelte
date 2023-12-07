@@ -74,8 +74,6 @@
     else  
       dayText = day.toString();
 
-      console.log(year + '-' + monthText + '-' + dayText);
-
     return year + '-' + monthText + '-' + dayText;
   }
 </script>
@@ -111,7 +109,7 @@
 
   <div class="button-container">
     <button on:click={() => $currentBreadState--} 
-    disabled={inputText == "" || $currentBreadState == 0}>Previous</button>
+    disabled={inputText == "" || $currentBreadState == 0}>Back</button>
     <button on:click={() =>{
         if ($currentBreadState != 1) {
           $currentBreadState++
@@ -147,11 +145,11 @@ p {
   height: auto;
   margin: 10px 20px 10px 20px;
   padding: 0px 20px 5px 20px;
-  background-color: rgb(80, 80, 80);
   border-radius: 10px;
   transition: 300ms;
   min-height: 250px;
 }
+
 form {
   width: 100%;
   display: flex;
