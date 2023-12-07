@@ -205,7 +205,7 @@ button:hover {
 
 button:disabled {
   cursor: default;
-  background-color: rgb(18, 94, 22);
+  background-color: rgb(48, 83, 50);
   color: gray;
 }
 </style>
