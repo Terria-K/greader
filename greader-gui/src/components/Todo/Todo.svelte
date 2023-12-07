@@ -3,73 +3,15 @@
   import IoMdTrash from 'svelte-icons/io/IoMdTrash.svelte'
   import Checkbox from "../Checkbox/Checkbox.svelte";
   import { sineIn } from "svelte/easing";
-  import { addDoc, collection, deleteDoc, doc, onSnapshot, updateDoc, type Unsubscribe, orderBy, query } from "firebase/firestore";
+  import { collection, deleteDoc, doc, onSnapshot, updateDoc, type Unsubscribe, orderBy, query } from "firebase/firestore";
   import { FirestoreApp } from "../../firebase";
   import { todos, type Todo } from "../../composables/todoStore";
   import { onDestroy, onMount } from "svelte";
+  import TodoCreateModal from "./TodoCreateModal.svelte";
 
-  let inputText: string = "";
+  let createActive = false;
 
   const todoCollection = query(collection(FirestoreApp, "todo"), orderBy("createdAt", "asc"));
-
-  async function addItem() {
-    const calendar = new Date();
-    const createdAt = Date.now();
-    const year = calendar.getUTCFullYear();
-    const month = calendar.getUTCMonth();
-    const day = calendar.getUTCDate();
-
-    let monthLetter = "";
-    switch (month) {
-      case 0: 
-        monthLetter = "January";
-        break;
-      case 1: 
-        monthLetter = "February";
-        break;
-      case 2: 
-        monthLetter = "March";
-        break;
-      case 3: 
-        monthLetter = "April";
-        break;
-      case 4: 
-        monthLetter = "May";
-        break;
-      case 5: 
-        monthLetter = "June";
-        break;
-      case 6: 
-        monthLetter = "July";
-        break;
-      case 7: 
-        monthLetter = "August";
-        break;
-      case 8: 
-        monthLetter = "September";
-        break;
-      case 9: 
-        monthLetter = "October";
-        break;
-      case 10: 
-        monthLetter = "November";
-        break;
-      case 11: 
-        monthLetter = "December";
-        break;
-    }
-
-    const todo: Todo = {
-      name: inputText,
-      description: "",
-      createdAt: createdAt,
-      date: `${monthLetter} ${day}, ${year}`,
-      isDone: false
-    };
-
-    await addDoc(collection(FirestoreApp, "todo"), todo);
-    inputText = "";
-  }
 
   async function deleteItem(todo: Todo) {
     let todoc = doc(FirestoreApp, "todo/" + todo.id);
@@ -97,19 +39,20 @@
       })
       $todos = todoList;
     })
-  })
+  });
 
   onDestroy(() => {
     snapshotUnsubscriber();
-  })
+  });
 
 </script>
+
+<TodoCreateModal bind:active={createActive}/>
 
 <div class="todo">
   <h2>To-Do List</h2>
 
-  <input type="text" id="inputText" placeholder="Enter Task" bind:value={inputText}/>
-  <button class="create-button" on:click|preventDefault={addItem}>Create</button>
+  <button class="create-button" on:click|preventDefault={() => createActive = true}>Create</button>
 
   <ul class="todo-list" id="todoList">
 {#each $todos as todo}
@@ -118,7 +61,11 @@
       <Checkbox checked={todo.isDone} on:click={(e) => {
         onChecked(e.detail, todo);
       }}>{todo.name}</Checkbox>
+      <div class="desc">
+        {todo.description}
+      </div>
       <div class="container">
+
         <div class="date">
           <p>{todo.date}</p>
         </div>
@@ -180,6 +127,11 @@
   background-color: rgb(95, 209, 114);
 }
 
+.create-button:disabled{
+  background-color: rgb(6, 78, 16);
+  color: gray;
+}
+
 .todo {
   padding-top: 50px;
   flex-direction: column;
@@ -210,13 +162,9 @@
   padding-bottom: 0;
  }
 
-
- input[type=text] {
-    width: 30%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    text-align: center;
-
+ .desc {
+  text-align: left;
+  font-size: 16px;
+  color: rgb(184, 184, 184);
  }
 </style>

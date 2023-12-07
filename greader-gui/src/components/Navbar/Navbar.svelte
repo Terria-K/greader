@@ -19,15 +19,6 @@
     <NavbarButton on:click={onClick}>
       <FaAlignJustify/>
     </NavbarButton>
-    <!-- <NavbarButton link="/home">
-      <span class="navbar-text">Home</span>
-    </NavbarButton>
-    <NavbarButton link="/faq">
-      <span class="navbar-text">FAQ</span>
-    </NavbarButton>
-    <NavbarButton link="/support">
-      <span class="navbar-text">Support</span>
-    </NavbarButton> -->
   </div>
 
   <div class="right-container">
