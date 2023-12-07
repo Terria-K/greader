@@ -6,12 +6,14 @@
 
   const close = createEventDispatcher();
 
+  export let noExit = false;
   export let active = false;
 </script>
 
 {#if active}
 <div class="fade-modal" transition:fade={{ duration: 230, easing: sineOut }}>
   <div class="modal" transition:scale={{ duration: 230, easing: sineOut }}>
+{#if !noExit}
     <div class="corner">
       <button class="close-button" on:click={() => {
         close('close');
@@ -19,9 +21,8 @@
       }}>
         <IoMdClose/>
       </button>
-
     </div>
-
+{/if}
     <slot/>
   </div>
 </div>
