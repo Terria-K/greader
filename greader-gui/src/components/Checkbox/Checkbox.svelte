@@ -15,7 +15,7 @@
 </script>
 
 <label class="container">
-  <input type="checkbox" {id} {name} bind:checked={checked} on:click|preventDefault={onClick}/>
+  <input type="checkbox" {id} {name} bind:checked={checked} on:click={onClick}/>
   <div>
     <slot/>
   </div>
@@ -33,6 +33,7 @@ div {
 }
 
 input[type="checkbox"] {
+  min-width: 28px;
   -webkit-appearance: none;
   appearance: none;
   margin: 0;

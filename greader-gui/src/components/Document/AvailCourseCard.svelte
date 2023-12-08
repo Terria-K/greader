@@ -7,7 +7,8 @@
   export let selected = false;
 </script>
 
-<button class="card" class:selected on:click|preventDefault={() => click('click')}>
+<button 
+  class="card" class:selected on:click|preventDefault={() => click('click')}>
   <p>BSIT</p>
   <div class="icon">
     <DiCode/>

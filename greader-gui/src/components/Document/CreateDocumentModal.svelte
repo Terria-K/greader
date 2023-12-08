@@ -3,7 +3,9 @@
   import Breadcrumbs from "../Breadcrumbs/Breadcrumbs.svelte";
   import ModalForm from "../Modal/ModalForm.svelte";
   import Crumbs from "../Breadcrumbs/Crumbs.svelte";
-    import AvailCourseCard from "./AvailCourseCard.svelte";
+  import AvailCourseCard from "./AvailCourseCard.svelte";
+  import StudentsSelect from "./StudentsSelect.svelte";
+  import StudentsAdd from "./StudentsAdd.svelte";
 
   let breadState = writable(0);
   let sectionNameText = "";
@@ -48,13 +50,25 @@
     </label>
 {/if}
 {#if $breadState == 1}
-    <p>Available Courses</p>
-    <div class="avail-list">
-      {#each {length: 8 } as _, i}
-      <AvailCourseCard selected={selectedCourse == i} on:click={() => selectedCourse = i}/>
-      {/each}
+    <div class="select-courses">
+      <p>Available Courses</p>
+      <div class="avail-list">
+        {#each {length: 8 } as _, i}
+        <AvailCourseCard selected={selectedCourse == i} on:click={() => selectedCourse = i}/>
+        {/each}
+      </div>
     </div>
-
+{/if}
+{#if $breadState == 2}
+    <div class="add-student">
+      <p>Add Students</p>
+      <div class="student-container">
+        {#each {length: 8 } as _, i}
+        <StudentsSelect/>
+        {/each}
+        <StudentsAdd/>
+      </div>
+    </div>
 {/if}
   </form>
 
@@ -110,24 +124,50 @@ button:disabled {
   margin-right: 10px;
 }
 
+.add-student {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.student-container {
+  background-color: rgb(48, 48, 48);
+  width: 400px;
+  height: 310px;
+  overflow-y: auto;
+  border-radius: 10px;
+  border: 0.13rem solid rgb(255, 255, 255);
+}
+
+.select-courses {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 form {
   width: 100%;
   display: flex;
   align-items: baseline;
   flex-direction: column;
-  margin: 20px;
 }
 
 label p {
   text-align: start;
   font-size: 20px;
   margin-bottom: 6px;
+  margin-left: 20px;
 }
 
 label span {
   text-align: start;
   font-size: 20px;
   margin-bottom: 6px;
+  margin-left: 20px;
 }
 
 input[type="text"] {
@@ -135,6 +175,7 @@ input[type="text"] {
   padding: 6px;
   color: white;
   background-color: rgb(48, 48, 48);
+  margin-left: 20px;
 }
 
 select {
