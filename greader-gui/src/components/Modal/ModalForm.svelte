@@ -46,8 +46,8 @@
   background-color: rgb(66, 66, 66);
   border-radius: 4px;
   box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.2);
-  width: 580px;
-  height: 480px;
+  width: 680px;
+  height: 580px;
   text-align: center;
   font-weight: bold;
   font-size: 28px;
