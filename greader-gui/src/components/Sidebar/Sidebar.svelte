@@ -5,6 +5,7 @@
   import IoMdLogOut from 'svelte-icons/io/IoMdLogOut.svelte'
   import SideButton from "./SideButton.svelte";
   import FaTasks from 'svelte-icons/fa/FaTasks.svelte'
+  import FaProjectDiagram from 'svelte-icons/fa/FaProjectDiagram.svelte'
   import { authHandlers } from "../../composables/authStore";
   export let active: boolean;
 
@@ -18,11 +19,14 @@
     <SideButton text="Home" to="/home">
       <FaHome/>
     </SideButton>
-    <SideButton text="To-Do" to="/todo">
-      <FaTasks/>
+    <SideButton text="Courses" to="/courses">
+      <FaProjectDiagram/>
     </SideButton>
     <SideButton text="Grades" to="/grades">
       <FaRegEdit/>
+    </SideButton>
+    <SideButton text="To-Do" to="/todo">
+      <FaTasks/>
     </SideButton>
     <SideButton text="Settings" to="/settings">
       <FaCog/>
