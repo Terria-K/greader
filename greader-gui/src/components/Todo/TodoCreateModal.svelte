@@ -117,7 +117,9 @@
         }
         addItem();
       } 
-    } disabled={inputText == ""}>{$currentBreadState == 1 ? "Create" : "Next"}</button>
+    } disabled={inputText == "" || ($currentBreadState == 1 && dateText == "")}>
+      {$currentBreadState == 1 ? "Create" : "Next"}
+    </button>
   </div>
 </ModalForm>
 
