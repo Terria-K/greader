@@ -5,6 +5,7 @@
   import { sineOut } from "svelte/easing";
 
   export let selected = false;
+  export let name: string;
 </script>
 
 <div class="card" in:fly={{duration: 200, easing: sineOut, x:-200}}>
@@ -14,7 +15,7 @@
         <div class="icon">
           <MdAccountCircle/>
         </div>
-        Ael Brian S. Angeles
+        {name}
       </div>
     </Checkbox>
   </div>

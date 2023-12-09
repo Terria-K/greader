@@ -4,8 +4,7 @@
   line-height: 24px;
   font-weight: 400;
 
-  color: #0a0a0a;
-  background-color: #f6f6f6;
+
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -16,6 +15,9 @@
 
 body {
   margin: 0;
+  color: #0a0a0a;
+  background-color: #dadada;
+  transition: 300ms;
 }
 
 a {
@@ -42,21 +44,6 @@ button {
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 }
 
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    color: #f6f6f6;
-    background-color: #242424;
-  }
-
-  a:hover {
-    color: #24c8db;
-  }
-
-  button:active {
-    background-color: #0f0f0f69;
-  }
-}
 
 ::-webkit-scrollbar {
   width: 10px;

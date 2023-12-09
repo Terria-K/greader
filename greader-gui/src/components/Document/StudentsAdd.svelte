@@ -2,11 +2,17 @@
   import FaPlus from 'svelte-icons/fa/FaPlus.svelte'
   import { fly } from "svelte/transition";
   import { sineOut } from "svelte/easing";
+    import { createEventDispatcher } from 'svelte';
 
+  const click = createEventDispatcher();
+
+  function onClick() {
+    click('click');
+  }
 </script>
 
 <div class="card" in:fly={{duration: 200, easing: sineOut, x:-200}}>
-  <button on:click|preventDefault class="add">
+  <button on:click|preventDefault={onClick} class="add">
     <div class="icon"><FaPlus/></div>
     <p>Add new students</p>
   </button>

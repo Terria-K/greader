@@ -6,10 +6,17 @@
   import AvailCourseCard from "./AvailCourseCard.svelte";
   import StudentsSelect from "./StudentsSelect.svelte";
   import StudentsAdd from "./StudentsAdd.svelte";
+  import CreateStudentsModal from "../Students/CreateStudentsModal.svelte";
+  import { collection, onSnapshot, type Unsubscribe } from "firebase/firestore";
+  import { FirestoreApp } from "../../firebase";
+  import { students, type Students } from "../../composables/stores";
+  import { onDestroy, onMount } from "svelte";
 
   let breadState = writable(0);
   let sectionNameText = "";
   let selectedCourse = -1;
+
+  let studentCol = collection(FirestoreApp, "students");
 
   function validation(index: number): boolean {
     switch (index) {
@@ -23,7 +30,26 @@
   }
 
   export let active = false;
+  let createStudentActive = false;
+
+  let snapshotUnsubscriber: Unsubscribe
+
+  onMount(() => {
+    snapshotUnsubscriber = onSnapshot(studentCol, querySnapshot => {
+      let studentList: Students[] = [];
+      querySnapshot.forEach((doc) => {
+        const todo: Students = { ...doc.data(), id: doc.id } as Students;
+        studentList = [todo, ...studentList];
+      })
+      $students = studentList;
+    })
+  });
+
+  onDestroy(() => {
+    snapshotUnsubscriber();
+  });
 </script>
+
 
 <ModalForm bind:active={active}>
   <p>Create Document</p>
@@ -63,16 +89,14 @@
     <div class="add-student">
       <p>Add Students</p>
       <div class="student-container">
-        {#each {length: 8 } as _, i}
-        <StudentsSelect/>
+        {#each $students as student}
+          <StudentsSelect name={student.name}/>
         {/each}
-        <StudentsAdd/>
+        <StudentsAdd on:click={() => createStudentActive = true}/>
       </div>
     </div>
 {/if}
   </form>
-
-
 
   <div class="button-container">
     <button on:click={() => $breadState--} 
@@ -90,6 +114,9 @@
 {/key}
   </div>
 </ModalForm>
+
+
+<CreateStudentsModal bind:active={createStudentActive} studentCol={studentCol}/>
 
 <style>
 button {

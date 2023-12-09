@@ -16,6 +16,10 @@
 
 
   onMount(() => {
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      window.document.body.classList.toggle("dark-mode");
+    }
+
     const unsubscribe = AuthApp.onAuthStateChanged((user) => {
       if (user) {
         authStore.update(x => {
@@ -63,5 +67,19 @@
 </main>
 
 <style>
+/* @media (prefers-color-scheme: dark) { */
+:global(body.dark-mode) {
+    color: #f6f6f6;
+    background-color: #242424;
+    transition: 300ms;
+  }
 
+:global(body.dark-mode) :global(a:hover) {
+    color: #24c8db;
+  }
+
+:global(body.dark-mode) :global(button:active) {
+    background-color: #0f0f0f69;
+  }
+/* } */
 </style>

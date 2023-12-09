@@ -40,7 +40,7 @@ button:hover {
 }
 
 .documents {
-  background-color: rgb(66, 66, 66);
+  background-color: rgb(238, 238, 238);
   border-radius: 4px;
   box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.2);
   width: auto;
@@ -51,6 +51,9 @@ button:hover {
   min-height: 120px;
 }
 
+:global(body.dark-mode) .documents {
+  background-color: rgb(66, 66, 66);
+}
 
 .documents-title {
   font-size: 20px;

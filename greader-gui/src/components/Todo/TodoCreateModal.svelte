@@ -110,12 +110,12 @@
   <div class="button-container">
     <button on:click={() => $currentBreadState--} 
     disabled={inputText == "" || $currentBreadState == 0}>Back</button>
-    <button on:click={() =>{
+    <button on:click={async () =>{
         if ($currentBreadState != 1) {
           $currentBreadState++
           return;
         }
-        addItem();
+        await addItem();
       } 
     } disabled={inputText == "" || ($currentBreadState == 1 && dateText == "")}>
       {$currentBreadState == 1 ? "Create" : "Next"}

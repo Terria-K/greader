@@ -6,7 +6,8 @@ export type Grade = {
 }
 
 export const gradeList: Writable<Grade[]> = writable([]);
-export const students : Writable<Students|null> = writable(null);
+export const student : Writable<Students|null> = writable(null);
+export const students : Writable<Students[]> = writable([]);
 export const studentsRefreshed: Writable<boolean> = writable(false);
 export const isTauri: boolean = '__TAURI__' in window;
 

@@ -7,10 +7,13 @@
   import Avatar from './Avatar.svelte';
 
   export let onClick: () => void;
-  let files: FileList | null = null;
 
   async function getAvatar() {
     return await storageHandlers.getAvatarURL();
+  }
+
+  function toggle() {
+    window.document.body.classList.toggle("dark-mode");
   }
 </script>
 
@@ -22,7 +25,7 @@
   </div>
 
   <div class="right-container">
-    <NavbarButton>
+    <NavbarButton on:click={toggle}>
       <WiMoonAltWaxingCrescent3/>
     </NavbarButton>
     <NavbarButton>
