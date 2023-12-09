@@ -7,7 +7,7 @@
   import StudentsSelect from "./StudentsSelect.svelte";
   import StudentsAdd from "./StudentsAdd.svelte";
   import CreateStudentsModal from "../Students/CreateStudentsModal.svelte";
-  import { collection, onSnapshot, type Unsubscribe } from "firebase/firestore";
+  import { collection, onSnapshot, orderBy, query, type Unsubscribe } from "firebase/firestore";
   import { FirestoreApp } from "../../firebase";
   import { students, type Students } from "../../composables/stores";
   import { onDestroy, onMount } from "svelte";
@@ -16,7 +16,7 @@
   let sectionNameText = "";
   let selectedCourse = -1;
 
-  let studentCol = collection(FirestoreApp, "students");
+  let studentCol = query(collection(FirestoreApp, "students"), orderBy("name", "desc"));
 
   function validation(index: number): boolean {
     switch (index) {
@@ -24,6 +24,8 @@
         return sectionNameText != "";
       case 1:
         return selectedCourse != -1;
+      case 2:
+        return true;
       default:
         return false;
     }
@@ -56,7 +58,7 @@
   <Breadcrumbs bind:state={breadState}>
     <Crumbs title="Information"/>
     <Crumbs title="Select Courses"/>
-    <Crumbs title="Add Students"/>
+    <Crumbs title="Add Students (Optional)"/>
   </Breadcrumbs>
 
   <form>
