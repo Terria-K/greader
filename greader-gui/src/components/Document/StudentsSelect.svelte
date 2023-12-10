@@ -15,14 +15,16 @@
         <div class="icon">
           <MdAccountCircle/>
         </div>
-        {name}
       </div>
     </Checkbox>
   </div>
+  <span>{name}</span>
 </div>
 
 <style>
 .card {
+  display: flex;
+  align-items: center;
   width: 100%;
   height: 50px;
   background-color: rgb(31, 31, 31);
@@ -50,5 +52,12 @@
 .icon {
   width: 30px;
   height: 30px;
+}
+
+span {
+  font-size: 16px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 </style>

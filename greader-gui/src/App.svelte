@@ -10,6 +10,7 @@
   import Grades from "./components/Grades/Grades.svelte";
   import Fade from "./components/Fade.svelte";
   import Todo from "./components/Todo/Todo.svelte";
+  import Students from "./components/Students/Students.svelte";
 
   $: active = false;
   export let url = "";
@@ -56,6 +57,9 @@
     </Route>
     <Route path="home">
       <Home/>
+    </Route>
+    <Route path="students">
+      <Students/>
     </Route>
     <Route path="todo">
       <Todo/>
