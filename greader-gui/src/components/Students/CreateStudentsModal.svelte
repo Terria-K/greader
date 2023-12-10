@@ -5,20 +5,22 @@
   import Crumbs from "../Breadcrumbs/Crumbs.svelte";
   import AvailCourseCard from "../Document/AvailCourseCard.svelte";
   import { CollectionReference, addDoc, collection, type DocumentData } from "firebase/firestore";
+  import { FirestoreApp } from "../../firebase";
 
   export let active = false;
 
-  export let studentCol: CollectionReference<DocumentData, DocumentData>;
+  let studentCol: CollectionReference<DocumentData, DocumentData> = collection(FirestoreApp, "students");
   let state = writable(0);
 
   let studentName: string = "";
   let studentID: number = 0;
   let selectedCourse: number = -1;
+  let level = 0;
 
   function validation(index: number): boolean {
     switch (index) {
       case 0:
-        return studentName != "" && studentID != 0;
+        return studentName != "" && studentID != 0 && level != 0;
       case 1: 
         return selectedCourse != -1;
       default:
@@ -30,11 +32,14 @@
     const student = {
       name: studentName,
       usn: studentID,
-      subjects: []
+      course: "BSIT",
+      subjects: [],
+      yearLevel: level
     }
     studentName = "";
     studentID = 0;
     selectedCourse = -1;
+    level = 0;
 
     await addDoc(studentCol, student);
 
@@ -62,7 +67,7 @@
     </label>
     <label>
       <span>Academic Level</span>
-      <select name="academicLevel">
+      <select name="academicLevel" bind:value={level}>
         {#each {length: 4 } as _, i }
           <option value={i + 1}>{i + 1}</option>
         {/each}
@@ -85,7 +90,7 @@
     <button on:click={() => $state--} 
     disabled={$state == 0}>Back</button>
 
-    {#key (studentID && studentName && selectedCourse)}
+    {#key (studentID && studentName && level && selectedCourse)}
     <button on:click={async () =>{
         if ($state != 1) {
           $state++
