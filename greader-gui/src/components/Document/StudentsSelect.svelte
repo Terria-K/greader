@@ -3,13 +3,18 @@
   import Checkbox from "../Checkbox/Checkbox.svelte";
   import { fly } from "svelte/transition";
   import { sineOut } from "svelte/easing";
+  import { createEventDispatcher } from "svelte";
 
   export let selected = false;
   export let name: string;
+  export let asButton: boolean = false;
+
+  const click = createEventDispatcher();
 </script>
 
 <div class="card" in:fly={{duration: 200, easing: sineOut, x:-200}}>
-  <div class="checkbox">
+{#if !asButton}
+  <div class="container">
     <Checkbox bind:checked={selected}>
       <div class="info">
         <div class="icon">
@@ -18,7 +23,16 @@
       </div>
     </Checkbox>
   </div>
-  <span>{name}</span>
+{:else}
+  <button on:click|preventDefault={() => click('click')}>
+    <div class="info">
+      <div class="icon">
+        <MdAccountCircle/>
+      </div>
+    </div>
+    <span>{name}</span>
+  </button>
+{/if}
 </div>
 
 <style>
@@ -35,7 +49,7 @@
   border-right: 0px;
 }
 
-.checkbox {
+.container {
   margin-left: 15px;
   display: flex;
   height: 100%;
@@ -47,6 +61,18 @@
 .info {
   display: flex;
   align-items: center;
+}
+
+button {
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  box-shadow: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }
 
 .icon {

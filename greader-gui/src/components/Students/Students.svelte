@@ -37,7 +37,7 @@
   <div class="panel-box">
     <div class="students-panel">
       {#each $students as student}
-        <StudentsSelect name={student.name}/>
+        <StudentsSelect name={student.name} asButton={true}/>
       {/each}
       <StudentsAdd on:click={() => createStudentActive = true}/>
     </div>
