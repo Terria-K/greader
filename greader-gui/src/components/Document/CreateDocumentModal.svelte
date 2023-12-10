@@ -211,6 +211,7 @@ input[type="text"] {
 }
 
 select {
+  margin-top: 10px;
   border-radius: 10px;
   font-size: 16px;
   width: 2.5rem;

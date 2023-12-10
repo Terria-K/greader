@@ -23,6 +23,7 @@
       </div>
     </Checkbox>
   </div>
+  <span>{name}</span>
 {:else}
   <button on:click|preventDefault={() => click('click')}>
     <div class="info">
