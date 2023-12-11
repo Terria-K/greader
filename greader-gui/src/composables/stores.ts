@@ -12,10 +12,11 @@ export const studentsRefreshed: Writable<boolean> = writable(false);
 export const isTauri: boolean = '__TAURI__' in window;
 
 export type Students = {
-    id: string,
+    id?: string,
     name: string,
     usn: string,
-    subjects: SubjectsCollection[]
+    subjects: SubjectsCollection[],
+    course: string
 }
 
 export type SubjectsCollection = {

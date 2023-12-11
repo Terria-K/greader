@@ -96,8 +96,7 @@
       <textarea name="todoDesc" maxlength="290" rows="8" cols="35" placeholder="Enter description here" bind:value={descText}></textarea>
     </label>
   </form>
-{/if}
-{#if $currentBreadState == 1}
+{:else}
   <form>
     <label>
       <p>Select a Deadline</p>

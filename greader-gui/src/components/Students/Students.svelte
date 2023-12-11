@@ -1,15 +1,18 @@
 <script lang="ts">
-  import { collection, onSnapshot, orderBy, query, type Unsubscribe } from "firebase/firestore";
+  import { collection, doc, onSnapshot, orderBy, query, updateDoc, type Unsubscribe, deleteDoc } from "firebase/firestore";
   import StudentsAdd from "../Document/StudentsAdd.svelte";
   import CreateStudentsModal from "./CreateStudentsModal.svelte";
   import { FirestoreApp } from "../../firebase";
   import { onDestroy, onMount } from "svelte";
   import { students, type Students } from "../../composables/stores";
   import StudentsSelect from "../Document/StudentsSelect.svelte";
+    import CourseCard from "../Courses/CourseCard.svelte";
 
   let studentCol = query(
     collection(FirestoreApp, "students"), 
     orderBy("name", "desc"));
+  
+  let currentStudentSelected: Students | null = null;
 
   let createStudentActive = false;
 
@@ -29,6 +32,27 @@
   onDestroy(() => {
     snapshotUnsubscriber();
   });
+
+  async function updateStudent(student: Students | null) {
+    if (student) {
+      let docRef = doc(FirestoreApp, "students/" + student.id);
+      let studentUpdate: Students = { 
+        name: student.name, 
+        usn: student.usn,
+        course: student.course,
+        subjects: student.subjects
+      };
+      await updateDoc(docRef, studentUpdate);
+    }
+  }
+
+  async function deleteStudent(student: Students | null) {
+    if (student) {
+      let docRef = doc(FirestoreApp, "students/" + student.id);
+      currentStudentSelected = null;
+      await deleteDoc(docRef);
+    }
+  }
 </script>
 
 <CreateStudentsModal bind:active={createStudentActive}/>
@@ -37,10 +61,34 @@
   <div class="panel-box">
     <div class="students-panel">
       {#each $students as student}
-        <StudentsSelect name={student.name} asButton={true}/>
+        <StudentsSelect name={student.name} asButton={true} on:click={() => currentStudentSelected = student}/>
       {/each}
       <StudentsAdd on:click={() => createStudentActive = true}/>
     </div>
+
+{#if currentStudentSelected}
+    <form>
+      <label>
+        <p>Student Name</p>
+        <input type="text" bind:value={currentStudentSelected.name}/>
+      </label>
+      <label>
+        <p>Student ID</p>
+        <input type="text" bind:value={currentStudentSelected.usn}/>
+      </label>
+      <div>
+        <p>Course</p>
+        <CourseCard/>
+      </div>
+      <div class="button-container">
+        <button on:click|preventDefault={() => updateStudent(currentStudentSelected)}>Save Changes</button>
+        <button class="reset" on:click|preventDefault>Reset</button>
+        <button class="delete" 
+          on:click|preventDefault={() => deleteStudent(currentStudentSelected)}>Delete
+        </button>
+      </div>
+    </form>
+{/if}
   </div>
 </div>
 
@@ -51,6 +99,7 @@
 }
 
 .panel-box {
+  display: flex;
   z-index: -1;
   position: absolute;
   margin: 10px;
@@ -73,5 +122,53 @@
   border-top: 0;
   border-bottom: 0;
   border-left: 0;
+}
+
+p {
+  font-weight: 600;
+  font-size: 19px;
+}
+
+form {
+  margin-left: 10px;
+}
+
+.button-container {
+  margin-top: 10px;
+}
+
+.reset {
+  background-color: rgb(90, 90, 90);
+}
+
+.reset:hover {
+  background-color: rgb(180, 180, 180);
+}
+
+.delete {
+  background-color: rgb(194, 2, 2);
+}
+
+.delete:hover {
+  background-color: rgb(255, 53, 53);
+}
+
+button {
+  cursor: pointer;
+  color: white;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: rgb(61, 139, 74);
+  transition: 300ms;
+}
+
+button:hover {
+  background-color: rgb(95, 209, 114);
+}
+
+button:disabled {
+  cursor: default;
+  background-color: rgb(48, 83, 50);
+  color: gray;
 }
 </style>

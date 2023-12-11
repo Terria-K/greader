@@ -2,7 +2,7 @@
   import FaPlus from 'svelte-icons/fa/FaPlus.svelte'
   import { fly } from "svelte/transition";
   import { sineOut } from "svelte/easing";
-    import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher } from 'svelte';
 
   const click = createEventDispatcher();
 

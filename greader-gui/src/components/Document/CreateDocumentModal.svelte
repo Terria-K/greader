@@ -3,7 +3,7 @@
   import Breadcrumbs from "../Breadcrumbs/Breadcrumbs.svelte";
   import ModalForm from "../Modal/ModalForm.svelte";
   import Crumbs from "../Breadcrumbs/Crumbs.svelte";
-  import AvailCourseCard from "./AvailCourseCard.svelte";
+  import AvailCourseCard from "../Courses/AvailCourseCard.svelte";
   import StudentsSelect from "./StudentsSelect.svelte";
   import StudentsAdd from "./StudentsAdd.svelte";
   import CreateStudentsModal from "../Students/CreateStudentsModal.svelte";
@@ -79,8 +79,7 @@
       <p>Section Name</p>
       <input type="text" name="sectionName" bind:value={sectionNameText}/>
     </label>
-{/if}
-{#if $breadState == 1}
+{:else if $breadState == 1}
     <div class="select-courses">
       <p>Available Courses</p>
       <div class="avail-list">
@@ -89,8 +88,7 @@
         {/each}
       </div>
     </div>
-{/if}
-{#if $breadState == 2}
+{:else if $breadState == 2}
     <div class="add-student">
       <p>Add Students</p>
       <div class="student-container">

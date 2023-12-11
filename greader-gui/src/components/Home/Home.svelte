@@ -10,7 +10,7 @@
 <CreateDocumentModal bind:active={createActive}/>
 
 <div class="home">
-  <p>GREADER</p>
+  <p>EVA-GRADE</p>
   <div class="sections">
     <EmptyDocument on:click={() => createActive = true}/>
     <Documents/>

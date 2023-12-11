@@ -3,7 +3,7 @@
   import Breadcrumbs from "../Breadcrumbs/Breadcrumbs.svelte";
   import ModalForm from "../Modal/ModalForm.svelte";
   import Crumbs from "../Breadcrumbs/Crumbs.svelte";
-  import AvailCourseCard from "../Document/AvailCourseCard.svelte";
+  import AvailCourseCard from "../Courses/AvailCourseCard.svelte";
   import { CollectionReference, addDoc, collection, type DocumentData } from "firebase/firestore";
   import { FirestoreApp } from "../../firebase";
 
@@ -73,8 +73,7 @@
         {/each}
       </select>
     </label>
-{/if}
-{#if $state == 1}
+{:else if $state == 1}
     <div class="select-courses">
       <p>Available Courses</p>
       <div class="avail-list">
@@ -171,8 +170,6 @@ label p {
 input[type="text"], input[type="number"] {
   font-size: 21px;
   padding: 6px;
-  color: white;
-  background-color: rgb(48, 48, 48);
   margin-left: 20px;
 }
 
