@@ -6,6 +6,7 @@
   import AvailCourseCard from "../Courses/AvailCourseCard.svelte";
   import { CollectionReference, addDoc, collection, type DocumentData } from "firebase/firestore";
   import { FirestoreApp } from "../../firebase";
+    import { error, success } from "../../composables/toast";
 
   export let active = false;
 
@@ -41,10 +42,18 @@
     selectedCourse = -1;
     level = 0;
 
-    await addDoc(studentCol, student);
-
-    $state = 0;
-    active = false;
+    try {
+      await addDoc(studentCol, student);
+      success("Success", "Student has been created!");
+    }
+    catch (e) {
+      console.log(e);
+      error("Failed", "Error occurred! Please try again later.");
+    }
+    finally {
+      $state = 0;
+      active = false;
+    }
   }
 </script>
 

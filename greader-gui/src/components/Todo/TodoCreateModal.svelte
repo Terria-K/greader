@@ -6,6 +6,7 @@
   import Breadcrumbs from "../Breadcrumbs/Breadcrumbs.svelte";
   import Crumbs from "../Breadcrumbs/Crumbs.svelte";
   import { writable } from "svelte/store";
+    import { error, success } from "../../composables/toast";
 
   let inputText = "";
   let descText = "";
@@ -49,10 +50,19 @@
     inputText = "";
     descText = "";
     dateText = "";
-    await addDoc(collection(FirestoreApp, "todo"), todo);
-    $currentBreadState = 0;
-    active = false;
-    exiting = false;
+    try {
+      await addDoc(collection(FirestoreApp, "todo"), todo);
+      success("Success", "Todo has successfully been created!");
+    }
+    catch (e) {
+      console.log(e);
+      error("Failed", "Error occurred. Please try again later.");
+    }
+    finally {
+      $currentBreadState = 0;
+      active = false;
+      exiting = false;
+    }
   }
 
   function maxDate() {

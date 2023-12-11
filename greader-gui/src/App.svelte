@@ -11,6 +11,9 @@
   import Fade from "./components/Fade.svelte";
   import Todo from "./components/Todo/Todo.svelte";
   import Students from "./components/Students/Students.svelte";
+  import Toast from "./components/Toast/Toast.svelte";
+  import { toasts } from "./composables/toast";
+  import { fly } from "svelte/transition";
 
   $: active = false;
   export let url = "";
@@ -45,6 +48,15 @@
 <main class="main">
   <Router {url}>
     <Fade open={active}/>
+    <div class="toast-handler">
+    {#each $toasts as toast}
+    {#if toast.show}
+    <div out:fly={{duration: 400, x: 100}}>
+    <Toast prop={toast}/>	
+    </div>
+    {/if}
+    {/each}
+    </div>
 
 {#if $authStore.currentUser}
     <Navbar onClick={() => {
@@ -71,6 +83,14 @@
 </main>
 
 <style>
+.toast-handler {
+  position: fixed;
+  z-index: 10;
+  right: 10px;
+  top: 10px;
+}
+
+
 /* @media (prefers-color-scheme: dark) { */
 :global(body.dark-mode) {
     color: #f6f6f6;

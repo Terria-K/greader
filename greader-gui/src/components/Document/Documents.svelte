@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { error, success } from "../../composables/toast";
+
   export let title = "1ST Year";
   export let name = "BSIT11E";
 </script>
