@@ -7,6 +7,7 @@
   import { students, type Students } from "../../composables/stores";
   import StudentsSelect from "../Document/StudentsSelect.svelte";
     import CourseCard from "../Courses/CourseCard.svelte";
+    import { fly } from "svelte/transition";
 
   let studentCol = query(
     collection(FirestoreApp, "students"), 
@@ -67,7 +68,7 @@
     </div>
 
 {#if currentStudentSelected}
-    <form>
+    <form in:fly={{duration: 200, x: 200}}>
       <label>
         <p>Student Name</p>
         <input type="text" bind:value={currentStudentSelected.name}/>
@@ -78,7 +79,7 @@
       </label>
       <div>
         <p>Course</p>
-        <CourseCard/>
+        <CourseCard name={currentStudentSelected.course}/>
       </div>
       <div class="button-container">
         <button on:click|preventDefault={() => updateStudent(currentStudentSelected)}>Save Changes</button>

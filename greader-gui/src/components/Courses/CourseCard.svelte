@@ -3,10 +3,11 @@
   import DiCode from 'svelte-icons/di/DiCode.svelte'
 
   const click = createEventDispatcher();
+  export let name: string;
 </script>
 
 <button class="card" on:click|preventDefault={() => click('click')}>
-  <p>BSIT</p>
+  <p>{name}</p>
   <div class="icon">
     <DiCode/>
   </div>
