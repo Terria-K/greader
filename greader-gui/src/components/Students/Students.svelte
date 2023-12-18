@@ -21,6 +21,7 @@
   let createStudentActive = false;
   let confirmationActive = false;
   let unsavedChanges = false;
+  let studentInfo = false;
 
   let currentStudent: {
     name: string,
@@ -51,7 +52,7 @@
     }
     currentStudent.name = text;
 
-    if (currentStudentSelected.name != currentStudent.name) {
+    if (currentStudentSelected.name.trim() != currentStudent.name.trim()) {
       unsavedChanges = true;
       return;
     }
@@ -140,31 +141,61 @@
   <div class="panel-box">
     <div class="students-panel">
       {#each $students as student}
-        <StudentsSelect name={student.name} asButton={true} on:click={() => selectStudent(student)}/>
+        <StudentsSelect selected={currentStudent?.usn == student.usn} name={student.name} asButton={true} on:click={() => selectStudent(student)}/>
       {/each}
       <StudentsAdd on:click={() => createStudentActive = true}/>
     </div>
 
-{#if currentStudent}
-    <div class="form-container">
-      <form in:fly={{duration: 200, x: 200}}>
-        <label>
-          <p>Student Name</p>
-          <input type="text" on:input={e => changeName(e)} bind:value={currentStudent.name}/>
-        </label>
-        <label>
-          <p>Student ID</p>
-          <input type="number" on:input={e => changeUSN(e)} bind:value={currentStudent.usn}/>
-        </label>
-      </form>
-      <form in:fly={{duration: 200, x: 200}}>
-        <div>
-          <p>Course</p>
-          <CourseCard name={currentStudent.course}/>
-        </div>
-      </form>
+    <div class="container">
+    {#if currentStudent}
+      {#if studentInfo}
+      <div class="form-container">
+        <form in:fly={{duration: 200, x: 200}}>
+          <label>
+            <p>Student Name</p>
+            <input type="text" on:input={e => changeName(e)} bind:value={currentStudent.name}/>
+          </label>
+          <label>
+            <p>Student ID</p>
+            <input type="number" on:input={e => changeUSN(e)} bind:value={currentStudent.usn}/>
+          </label>
+        </form>
+        <form in:fly={{duration: 200, x: 200}}>
+          <div>
+            <p>Course</p>
+            <CourseCard name={currentStudent.course}/>
+          </div>
+        </form>
+      </div>
+      {/if}
+
+      <table>
+        <tr>
+          <th>Subject Name</th>
+          <th class="hdarker-item">Activity</th>
+          <th>Quiz</th>
+          <th class="hdarker-item">Exam</th>
+          <th>Average</th>
+        </tr>
+        <tr>
+          <td>Platform Technology</td>
+          <td class="darker-item">95.8%</td>
+          <td>99.8%</td>
+          <td class="darker-item">97.2%</td>
+          <td id="average">{((95.8 + 99.8 + 97.2) / 3).toFixed(1)}%</td>
+        </tr>
+        {#each {length: 6} as _, i}
+        <tr>
+          <td>Computer Programming</td>
+          <td class="darker-item">92.8%</td>
+          <td>91.8%</td>
+          <td class="darker-item">93.2%</td>
+          <td id="average">{((92.8 + 91.8 + 93.2) / 3).toFixed(1)}%</td>
+        </tr>
+        {/each}
+      </table>
+    {/if}
     </div>
-{/if}
   </div>
 </div>
 
@@ -172,7 +203,7 @@
 <SaveChanges
   on:save-changes={() => {
     if (currentStudent && currentStudentSelected) {
-      currentStudentSelected.name = currentStudent.name;
+      currentStudentSelected.name = currentStudent.name.trim();
       currentStudentSelected.usn = currentStudent.usn;
       currentStudentSelected.course= currentStudent.course;
       updateStudent(currentStudentSelected);
@@ -185,6 +216,12 @@
 .form-container {
   display: flex;
   justify-content: center;
+  width: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
   width: 100%;
 }
 
@@ -202,7 +239,7 @@
   width: 95%;
   height: 80%;
   background-color: rgb(31, 31, 31);
-  border-radius: 10px;
+  border-radius: 5px;
   border: 2px solid white;
 }
 
@@ -239,5 +276,35 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   appearance: textfield;
+}
+
+#average {
+  font-weight: bold;
+}
+
+table {
+  border-spacing: 0;
+  z-index: -2;
+}
+
+tr {
+  height: 40px;
+}
+
+th {
+  background-color: rgb(49, 49, 49);
+}
+
+td {
+  padding-left: 10px;
+  background-color: rgb(36, 36, 36);
+}
+
+.darker-item {
+  background-color: rgb(32, 32, 32);
+}
+
+.hdarker-item {
+  background-color: rgb(44, 44, 44);
 }
 </style>

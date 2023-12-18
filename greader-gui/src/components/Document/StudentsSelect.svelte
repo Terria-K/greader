@@ -10,9 +10,13 @@
   export let asButton: boolean = false;
 
   const click = createEventDispatcher();
+
+  function onClick() {
+    click('click');
+  }
 </script>
 
-<div class="card" in:fly={{duration: 200, easing: sineOut, x:-200}}>
+<div class="card" class:selected={asButton && selected} in:fly={{duration: 200, easing: sineOut, x:-200}}>
 {#if !asButton}
   <div class="container">
     <Checkbox bind:checked={selected}>
@@ -25,7 +29,7 @@
   </div>
   <span>{name}</span>
 {:else}
-  <button on:click|preventDefault={() => click('click')}>
+  <button on:click|preventDefault={onClick}>
     <div class="info">
       <div class="icon">
         <MdAccountCircle/>
@@ -48,6 +52,11 @@
   border-top: 0px;
   border-left: 0px;
   border-right: 0px;
+}
+
+.card.selected {
+  background-color: rgb(44, 44, 44);
+  border-color: rgb(72, 179, 115);
 }
 
 .container {

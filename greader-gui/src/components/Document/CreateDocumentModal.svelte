@@ -14,6 +14,7 @@
 
   let breadState = writable(0);
   let sectionNameText = "";
+  let semester = -1;
   let selectedCourse = -1;
 
   let studentCol = query(
@@ -67,6 +68,11 @@
   <form>
 {#if $breadState == 0}
     <label>
+      <p>Section Name</p>
+      <input type="text" name="sectionName" bind:value={sectionNameText}/>
+    </label>
+
+    <label>
       <span>Academic Level</span>
       <select name="academicLevel">
         {#each {length: 4 } as _, i }
@@ -74,11 +80,15 @@
         {/each}
       </select>
     </label>
-
     <label>
-      <p>Section Name</p>
-      <input type="text" name="sectionName" bind:value={sectionNameText}/>
+      <span>Semester Level</span>
+      <select name="semesterLevel">
+        {#each {length: 2 } as _, i }
+          <option value={i + 1}>{i + 1}</option>
+        {/each}
+      </select>
     </label>
+
 {:else if $breadState == 1}
     <div class="select-courses">
       <p>Available Courses</p>

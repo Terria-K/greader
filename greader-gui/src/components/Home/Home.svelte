@@ -39,9 +39,10 @@ p {
   border-radius: 10px;
   padding: 10px;
   background-color: rgb(29, 29, 29);
-  width: 90%;
+  width: 95%;
   flex-wrap: wrap;
   display: flex;
+  justify-content: center;
 }
 
 </style>
