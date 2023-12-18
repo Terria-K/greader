@@ -1,21 +1,86 @@
 <script lang="ts">
   import { collection, doc, onSnapshot, orderBy, query, updateDoc, type Unsubscribe, deleteDoc } from "firebase/firestore";
-  import StudentsAdd from "../Document/StudentsAdd.svelte";
-  import CreateStudentsModal from "./CreateStudentsModal.svelte";
+  import { fly } from "svelte/transition";
   import { FirestoreApp } from "../../firebase";
   import { onDestroy, onMount } from "svelte";
   import { students, type Students } from "../../composables/stores";
+  import StudentsAdd from "../Document/StudentsAdd.svelte";
+  import CreateStudentsModal from "./CreateStudentsModal.svelte";
   import StudentsSelect from "../Document/StudentsSelect.svelte";
-    import CourseCard from "../Courses/CourseCard.svelte";
-    import { fly } from "svelte/transition";
+  import CourseCard from "../Courses/CourseCard.svelte";
+  import ConfirmationDialog from "../Modal/ConfirmationDialog.svelte";
+  import SaveChanges from "./SaveChanges.svelte";
 
   let studentCol = query(
     collection(FirestoreApp, "students"), 
     orderBy("name", "desc"));
   
   let currentStudentSelected: Students | null = null;
+  let studentToSelect : Students | null = null;
 
   let createStudentActive = false;
+  let confirmationActive = false;
+  let unsavedChanges = false;
+
+  let currentStudent: {
+    name: string,
+    usn: string,
+    course: string
+  } | null = null;
+
+  function selectStudent(student: Students) {
+    if (currentStudentSelected == student)
+      return;
+    if (unsavedChanges) {
+      studentToSelect = student;
+      confirmationActive = true;
+      return;
+    }
+    currentStudentSelected = student;
+    currentStudent = {
+      name: student.name,
+      usn: student.usn,
+      course: student.course
+    };
+  }
+
+  function changeName(e: any) {
+    const text = e.target.value;
+    if (!currentStudentSelected || !currentStudent) {
+      return;
+    }
+    currentStudent.name = text;
+
+    if (currentStudentSelected.name != currentStudent.name) {
+      unsavedChanges = true;
+      return;
+    }
+    unsavedChanges = false;
+  }
+
+  function changeUSN(e: any) {
+    const text = e.target.value;
+    if (!currentStudentSelected || !currentStudent) {
+      return;
+    }
+    currentStudent.usn = text;
+
+    if (currentStudentSelected.usn != currentStudent.usn) {
+      unsavedChanges = true;
+      return;
+    }
+    unsavedChanges = false;
+  }
+
+  function reset() {
+    if (!currentStudent || !currentStudentSelected) {
+      return;
+    }
+    currentStudent.name = currentStudentSelected.name;
+    currentStudent.usn = currentStudentSelected.usn;
+    currentStudent.course = currentStudentSelected.course;
+    unsavedChanges = false;
+  }
 
   let snapshotUnsubscriber: Unsubscribe
 
@@ -43,6 +108,7 @@
         course: student.course,
         subjects: student.subjects
       };
+      unsavedChanges = false;
       await updateDoc(docRef, studentUpdate);
     }
   }
@@ -57,44 +123,73 @@
 </script>
 
 <CreateStudentsModal bind:active={createStudentActive}/>
+<ConfirmationDialog 
+  content="Are you sure you want to discard changes?"
+  bind:active={confirmationActive} 
+  red="Yes" 
+  on:yes={() => {
+    reset();
+    unsavedChanges = false;
+    if (studentToSelect)
+      selectStudent(studentToSelect);
+    studentToSelect = null;
+  }}
+/>
 
 <div class="panel">
   <div class="panel-box">
     <div class="students-panel">
       {#each $students as student}
-        <StudentsSelect name={student.name} asButton={true} on:click={() => currentStudentSelected = student}/>
+        <StudentsSelect name={student.name} asButton={true} on:click={() => selectStudent(student)}/>
       {/each}
       <StudentsAdd on:click={() => createStudentActive = true}/>
     </div>
 
-{#if currentStudentSelected}
-    <form in:fly={{duration: 200, x: 200}}>
-      <label>
-        <p>Student Name</p>
-        <input type="text" bind:value={currentStudentSelected.name}/>
-      </label>
-      <label>
-        <p>Student ID</p>
-        <input type="text" bind:value={currentStudentSelected.usn}/>
-      </label>
-      <div>
-        <p>Course</p>
-        <CourseCard name={currentStudentSelected.course}/>
-      </div>
-      <div class="button-container">
-        <button on:click|preventDefault={() => updateStudent(currentStudentSelected)}>Save Changes</button>
-        <button class="reset" on:click|preventDefault>Reset</button>
-        <button class="delete" 
-          on:click|preventDefault={() => deleteStudent(currentStudentSelected)}>Delete
-        </button>
-      </div>
-    </form>
+{#if currentStudent}
+    <div class="form-container">
+      <form in:fly={{duration: 200, x: 200}}>
+        <label>
+          <p>Student Name</p>
+          <input type="text" on:input={e => changeName(e)} bind:value={currentStudent.name}/>
+        </label>
+        <label>
+          <p>Student ID</p>
+          <input type="number" on:input={e => changeUSN(e)} bind:value={currentStudent.usn}/>
+        </label>
+      </form>
+      <form in:fly={{duration: 200, x: 200}}>
+        <div>
+          <p>Course</p>
+          <CourseCard name={currentStudent.course}/>
+        </div>
+      </form>
+    </div>
 {/if}
   </div>
 </div>
 
+{#if unsavedChanges}
+<SaveChanges
+  on:save-changes={() => {
+    if (currentStudent && currentStudentSelected) {
+      currentStudentSelected.name = currentStudent.name;
+      currentStudentSelected.usn = currentStudent.usn;
+      currentStudentSelected.course= currentStudent.course;
+      updateStudent(currentStudentSelected);
+    }
+  }}
+  on:reset={() => reset()}/>
+{/if}
+
 <style>
+.form-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 .panel {
+  overflow-x: hidden;
   padding-top: 54px;
   flex-direction: column;
 }
@@ -134,42 +229,15 @@ form {
   margin-left: 10px;
 }
 
-.button-container {
-  margin-top: 10px;
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-.reset {
-  background-color: rgb(90, 90, 90);
-}
-
-.reset:hover {
-  background-color: rgb(180, 180, 180);
-}
-
-.delete {
-  background-color: rgb(194, 2, 2);
-}
-
-.delete:hover {
-  background-color: rgb(255, 53, 53);
-}
-
-button {
-  cursor: pointer;
-  color: white;
-  border-radius: 10px;
-  padding: 10px;
-  background-color: rgb(61, 139, 74);
-  transition: 300ms;
-}
-
-button:hover {
-  background-color: rgb(95, 209, 114);
-}
-
-button:disabled {
-  cursor: default;
-  background-color: rgb(48, 83, 50);
-  color: gray;
+/* Firefox */
+input[type=number] {
+  appearance: textfield;
 }
 </style>
