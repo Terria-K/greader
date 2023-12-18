@@ -3,13 +3,18 @@
   import MdChevronRight from "svelte-icons/md/MdChevronRight.svelte";
   import type { Writable } from "svelte/store";
 
-  const { index, count, currentState } = getContext<{
-    index: () => number, 
-    count: Writable<number>,
-    currentState: Writable<number>
-  }>("breadIndex");
+
+  const { index, count, currentState } = getContext<CrumbProp>("breadIndex");
   const state = index();
   export let title: string;
+</script>
+
+<script lang="ts" context="module">
+  export type CrumbProp = {
+    index: () => number,
+    count: Writable<number>,
+    currentState: Writable<number>
+  };
 </script>
 
 <a 

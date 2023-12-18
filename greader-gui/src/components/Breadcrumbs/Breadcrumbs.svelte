@@ -1,11 +1,12 @@
 <script lang="ts">
   import { setContext } from 'svelte';
   import { writable, type Writable } from 'svelte/store';
+  import type { CrumbProp } from './Crumbs.svelte';
 
   let breadIndex = writable(-1);
   export let state: Writable<number>;
 
-  setContext('breadIndex', {
+  setContext<CrumbProp>('breadIndex', {
     index: () => {
       $breadIndex += 1;
       return $breadIndex;
