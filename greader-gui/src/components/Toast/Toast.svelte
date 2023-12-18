@@ -6,10 +6,7 @@
 </script>
 
 <div class="toast" class:error={prop.isError} >
-  <button class="close" on:click={() => { 
-        prop.close()
-      }
-    }>
+  <button class="close" on:click={() => prop.close()}>
     <IoIosClose/>
   </button>
   <p class="title">{prop.title}</p>
