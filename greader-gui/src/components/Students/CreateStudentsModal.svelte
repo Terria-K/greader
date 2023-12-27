@@ -6,7 +6,7 @@
   import AvailCourseCard from "../Courses/AvailCourseCard.svelte";
   import { CollectionReference, addDoc, collection, type DocumentData } from "firebase/firestore";
   import { FirestoreApp } from "../../firebase";
-    import { error, success } from "../../composables/toast";
+  import { error, success } from "../../composables/toast";
 
   export let active = false;
 

@@ -1,6 +1,5 @@
 <script lang="ts">
   import { collection, doc, onSnapshot, orderBy, query, updateDoc, type Unsubscribe, deleteDoc } from "firebase/firestore";
-  import { fly } from "svelte/transition";
   import { FirestoreApp } from "../../firebase";
   import { onDestroy, onMount } from "svelte";
   import { students, type Students } from "../../composables/stores";
@@ -10,6 +9,7 @@
   import CourseCard from "../Courses/CourseCard.svelte";
   import ConfirmationDialog from "../Modal/ConfirmationDialog.svelte";
   import SaveChanges from "./SaveChanges.svelte";
+  import InfoTab from "./InfoTab.svelte";
 
   let studentCol = query(
     collection(FirestoreApp, "students"), 
@@ -19,7 +19,8 @@
   let studentToSelect : Students | null = null;
 
   let createStudentActive = false;
-  let confirmationActive = false;
+  let discardActive = false;
+  let deleteActive = false;
   let unsavedChanges = false;
   let studentInfo = false;
 
@@ -34,7 +35,7 @@
       return;
     if (unsavedChanges) {
       studentToSelect = student;
-      confirmationActive = true;
+      discardActive = true;
       return;
     }
     currentStudentSelected = student;
@@ -121,12 +122,21 @@
       await deleteDoc(docRef);
     }
   }
+
+  function saveChanges() {
+    if (currentStudent && currentStudentSelected) {
+      currentStudentSelected.name = currentStudent.name.trim();
+      currentStudentSelected.usn = currentStudent.usn;
+      currentStudentSelected.course = currentStudent.course;
+      updateStudent(currentStudentSelected);
+    }
+  }
 </script>
 
 <CreateStudentsModal bind:active={createStudentActive}/>
 <ConfirmationDialog 
   content="Are you sure you want to discard changes?"
-  bind:active={confirmationActive} 
+  bind:active={discardActive} 
   red="Yes" 
   on:yes={() => {
     reset();
@@ -136,21 +146,41 @@
     studentToSelect = null;
   }}
 />
+<ConfirmationDialog 
+  content="Are you sure you want to drop this student?"
+  bind:active={deleteActive} 
+  red="No" 
+  on:yes={() => {
+    unsavedChanges = false;
+    deleteStudent(currentStudentSelected);
+    currentStudentSelected = null;
+    currentStudent = null;
+  }}
+/>
 
 <div class="panel">
   <div class="panel-box">
     <div class="students-panel">
       {#each $students as student}
-        <StudentsSelect selected={currentStudent?.usn == student.usn} name={student.name} asButton={true} on:click={() => selectStudent(student)}/>
+        <StudentsSelect selected={currentStudent?.usn == student.usn} name={student.name} 
+        asButton={true} on:click={() => selectStudent(student)}/>
       {/each}
       <StudentsAdd on:click={() => createStudentActive = true}/>
     </div>
 
     <div class="container">
+      <InfoTab on:click={(e) => {
+        const id = e.detail;
+        if (id == 0) {
+          studentInfo = false;
+        } else {
+          studentInfo = true;
+        }
+      }}/>
     {#if currentStudent}
       {#if studentInfo}
       <div class="form-container">
-        <form in:fly={{duration: 200, x: 200}}>
+        <form>
           <label>
             <p>Student Name</p>
             <input type="text" on:input={e => changeName(e)} bind:value={currentStudent.name}/>
@@ -160,14 +190,20 @@
             <input type="number" on:input={e => changeUSN(e)} bind:value={currentStudent.usn}/>
           </label>
         </form>
-        <form in:fly={{duration: 200, x: 200}}>
+
+        <form>
           <div>
             <p>Course</p>
             <CourseCard name={currentStudent.course}/>
           </div>
         </form>
+
       </div>
-      {/if}
+      <div class="button-container">
+        <button class="delete-button" on:click|preventDefault={() => deleteActive = true}>Drop Student</button>
+      </div>
+
+      {:else}
 
       <table>
         <tr>
@@ -194,6 +230,11 @@
         </tr>
         {/each}
       </table>
+      {/if}
+    {:else}
+      <div class="text-container">
+        Please select a student first
+      </div>
     {/if}
     </div>
   </div>
@@ -201,28 +242,49 @@
 
 {#if unsavedChanges}
 <SaveChanges
-  on:save-changes={() => {
-    if (currentStudent && currentStudentSelected) {
-      currentStudentSelected.name = currentStudent.name.trim();
-      currentStudentSelected.usn = currentStudent.usn;
-      currentStudentSelected.course= currentStudent.course;
-      updateStudent(currentStudentSelected);
-    }
-  }}
-  on:reset={() => reset()}/>
+  on:save-changes={saveChanges}
+  on:reset={reset}/>
 {/if}
 
 <style>
+
 .form-container {
   display: flex;
   justify-content: center;
   width: 100%;
 }
 
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.2rem;
+}
+
+.delete-button {
+  color: white;
+  background-color: rgb(194, 2, 2, 0.918);
+  cursor: pointer;
+  transition: 300ms;
+}
+
+.delete-button:hover {
+  background-color: rgb(255, 53, 53, 0.918);
+}
+
 .container {
   display: flex;
   flex-direction: column;
   width: 100%;
+}
+
+.text-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  font-size: 36px;
+  font-weight: bold;
 }
 
 .panel {
