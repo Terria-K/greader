@@ -26,9 +26,6 @@
     <SideButton text="Students" to="/students">
       <FaUser/>
     </SideButton>
-    <SideButton text="Grades" to="/grades">
-      <FaRegEdit/>
-    </SideButton>
     <SideButton text="To-Do" to="/todo">
       <FaTasks/>
     </SideButton>
