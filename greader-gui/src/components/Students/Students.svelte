@@ -10,6 +10,8 @@
   import ConfirmationDialog from "../Modal/ConfirmationDialog.svelte";
   import SaveChanges from "./SaveChanges.svelte";
   import InfoTab from "./InfoTab.svelte";
+  import SubjectTable from "./SubjectTable.svelte";
+    import Subjects from "./Subjects.svelte";
 
   let studentCol = query(
     collection(FirestoreApp, "students"), 
@@ -22,7 +24,7 @@
   let discardActive = false;
   let deleteActive = false;
   let unsavedChanges = false;
-  let studentInfo = false;
+  let tabState = 0;
 
   let currentStudent: {
     name: string,
@@ -171,14 +173,10 @@
     <div class="container">
       <InfoTab on:click={(e) => {
         const id = e.detail;
-        if (id == 0) {
-          studentInfo = false;
-        } else {
-          studentInfo = true;
-        }
+        tabState = id
       }}/>
     {#if currentStudent}
-      {#if studentInfo}
+      {#if tabState == 1}
       <div class="form-container">
         <form>
           <label>
@@ -203,33 +201,10 @@
         <button class="delete-button" on:click|preventDefault={() => deleteActive = true}>Drop Student</button>
       </div>
 
+      {:else if tabState == 0}
+        <SubjectTable/>
       {:else}
-
-      <table>
-        <tr>
-          <th>Subject Name</th>
-          <th class="hdarker-item">Activity</th>
-          <th>Quiz</th>
-          <th class="hdarker-item">Exam</th>
-          <th>Average</th>
-        </tr>
-        <tr>
-          <td>Platform Technology</td>
-          <td class="darker-item">95.8%</td>
-          <td>99.8%</td>
-          <td class="darker-item">97.2%</td>
-          <td id="average">{((95.8 + 99.8 + 97.2) / 3).toFixed(1)}%</td>
-        </tr>
-        {#each {length: 6} as _, i}
-        <tr>
-          <td>Computer Programming</td>
-          <td class="darker-item">92.8%</td>
-          <td>91.8%</td>
-          <td class="darker-item">93.2%</td>
-          <td id="average">{((92.8 + 91.8 + 93.2) / 3).toFixed(1)}%</td>
-        </tr>
-        {/each}
-      </table>
+        <Subjects/>
       {/if}
     {:else}
       <div class="text-container">
@@ -340,33 +315,4 @@ input[type=number] {
   appearance: textfield;
 }
 
-#average {
-  font-weight: bold;
-}
-
-table {
-  border-spacing: 0;
-  z-index: -2;
-}
-
-tr {
-  height: 40px;
-}
-
-th {
-  background-color: rgb(49, 49, 49);
-}
-
-td {
-  padding-left: 10px;
-  background-color: rgb(36, 36, 36);
-}
-
-.darker-item {
-  background-color: rgb(32, 32, 32);
-}
-
-.hdarker-item {
-  background-color: rgb(44, 44, 44);
-}
 </style>

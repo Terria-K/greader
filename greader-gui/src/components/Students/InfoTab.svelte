@@ -14,6 +14,7 @@
 <div class="tab">
   <button class:selected={currentId == 0} on:click={() => clicked(0)}>Grades</button>
   <button class:selected={currentId == 1} on:click={() => clicked(1)}>Info</button>
+  <button class:selected={currentId == 1} on:click={() => clicked(2)}>Subjects</button>
 </div>
 
 <style>
@@ -27,6 +28,8 @@
 }
 
 button {
+  min-width: 80px;
+  font-size: 18px;
   padding: 0.8rem;
   border: 2px solid white;
   border-left: 0;
