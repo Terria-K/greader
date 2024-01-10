@@ -1,23 +1,21 @@
-<script lang="ts">
-
-</script>
+<script lang="ts"></script>
 
 <div class="grades">
   <table class="table-holder">
     <tr>
       <th>Subject Name</th>
-      <th class="hdarker-item">Activity</th>
+      <th>Activity</th>
       <th>Quiz</th>
-      <th class="hdarker-item">Exam</th>
+      <th>Exam</th>
       <th>Average</th>
     </tr>
     {#each {length: 15} as _, i}
     <tr>
       <td>Computer Programming</td>
-      <td class="darker-item">92.8%</td>
-      <td>91.8%</td>
-      <td class="darker-item">93.2%</td>
-      <td id="average">{((92.8 + 91.8 + 93.2) / 3).toFixed(1)}%</td>
+      <td>24.3%</td>
+      <td>30%</td>
+      <td>40%</td>
+      <td id="average">{((24.3 + 30 + 40)).toFixed(1)}%</td>
     </tr>
     {/each}
   </table>
@@ -54,6 +52,10 @@ th {
   background-color: rgb(49, 49, 49);
 }
 
+th:nth-child(even) {
+  background-color: rgb(44, 44, 44);
+}
+
 td {
   padding-left: 10px;
   height: 45px;
@@ -64,11 +66,7 @@ td {
   border-right: 0px;
 }
 
-.darker-item {
+td:nth-child(even) {
   background-color: rgb(32, 32, 32);
-}
-
-.hdarker-item {
-  background-color: rgb(44, 44, 44);
 }
 </style>

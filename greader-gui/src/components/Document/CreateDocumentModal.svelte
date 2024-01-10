@@ -65,7 +65,7 @@
     <Crumbs title="Add Students (Optional)"/>
   </Breadcrumbs>
 
-  <form>
+  <form on:submit|preventDefault>
 {#if $breadState == 0}
     <label>
       <p>Section Name</p>

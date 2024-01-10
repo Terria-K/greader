@@ -1,4 +1,8 @@
 <script lang="ts">
+  import { createEventDispatcher } from "svelte";
+
+  const click = createEventDispatcher()
+
   export let title = "1ST Year";
   export let name = "BSIT11E";
 </script>
@@ -7,11 +11,15 @@
   <div class="documents-holder">
     <h1>{title}</h1>
     <p class="documents-title">{name}</p>
-    <button>View</button>
   </div>
+  <button on:click={() => click('view')}>View</button>
 </div>
 
 <style>
+h1 {
+  user-select: none;
+}
+
 button {
   padding: 10px;
   border-radius: 10px;
@@ -30,12 +38,13 @@ button:hover {
   background-color: rgb(238, 238, 238);
   border-radius: 4px;
   box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.2);
-  width: auto;
+  width: 250px;
   height: auto;
   margin-left: 6px;
   margin-bottom: 10px;
   min-width: 220px;
   min-height: 120px;
+  text-align: center;
 }
 
 :global(body.dark-mode) .documents {
@@ -51,8 +60,8 @@ button:hover {
 
 .documents-holder {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: space-between;
   flex-direction: column;
 }
 </style>

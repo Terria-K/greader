@@ -96,7 +96,7 @@
   </Breadcrumbs>
   <div class="form-container">
 {#if $currentBreadState == 0}
-  <form>
+  <form on:submit|preventDefault>
     <label>
       <p>Task Name</p>
       <input type="text" name="todoName" placeholder="Enter task here" bind:value={inputText}/>

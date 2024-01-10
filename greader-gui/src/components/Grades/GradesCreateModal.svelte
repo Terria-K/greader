@@ -65,7 +65,7 @@
     </div>
     <p>Create Subject</p>
 
-    <form>
+    <form on:submit|preventDefault>
       <label>
         <p>Subject Name</p>
         <input type="text" name="Subject Name" placeholder="Enter Subject Name" bind:value={formSubjectName}/>

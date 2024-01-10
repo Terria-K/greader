@@ -2,24 +2,25 @@
   import CreateDocumentModal from "../Document/CreateDocumentModal.svelte";
   import Documents from "../Document/Documents.svelte";
   import EmptyDocument from "../Document/EmptyDocument.svelte";
+  import Students from "../Students/Students.svelte";
+  import ViewModal from "./ViewModal.svelte";
 
   let createActive = false;
-
+  let viewed = false;
 </script>
 
+
+<ViewModal bind:active={viewed}>
+  <Students/>
+</ViewModal>
 <CreateDocumentModal bind:active={createActive}/>
 
 <div class="home">
   <p>EVA-GRADE</p>
   <div class="sections">
     <EmptyDocument on:click={() => createActive = true}/>
-    <Documents/>
-    <Documents/>
-    <Documents/>
-    <Documents/>
-    <Documents/>
+    <Documents title="Comprog" on:view={() => viewed = true}/>
   </div>
-
 </div>
 
 <style>

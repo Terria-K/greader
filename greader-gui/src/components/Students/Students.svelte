@@ -10,8 +10,8 @@
   import ConfirmationDialog from "../Modal/ConfirmationDialog.svelte";
   import SaveChanges from "./SaveChanges.svelte";
   import InfoTab from "./InfoTab.svelte";
-  import SubjectTable from "./SubjectTable.svelte";
-    import Subjects from "./Subjects.svelte";
+  import Subjects from "./Subjects.svelte";
+  import GradesTable from "./GradesTable.svelte";
 
   let studentCol = query(
     collection(FirestoreApp, "students"), 
@@ -202,7 +202,7 @@
       </div>
 
       {:else if tabState == 0}
-        <SubjectTable/>
+        <GradesTable/>
       {:else}
         <Subjects/>
       {/if}

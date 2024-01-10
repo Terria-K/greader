@@ -7,7 +7,7 @@
 <div class="documents">
   <div class="documents-holder">
     <h1>Create Document</h1>
-    <p class="documents-title">{name}</p>
+    <p class="documents-title"/>
     <div class="viewbutton">
       <button on:click={() => click('click')}>+</button>
     </div>
