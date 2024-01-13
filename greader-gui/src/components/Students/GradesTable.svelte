@@ -1,72 +1,45 @@
 <script lang="ts"></script>
 
-<div class="grades">
-  <table class="table-holder">
-    <tr>
-      <th>Subject Name</th>
-      <th>Activity</th>
-      <th>Quiz</th>
-      <th>Exam</th>
-      <th>Average</th>
+<div class="h-full flex flex-col overflow-y-auto">
+  <table class="w-full border-spacing-0 -z-[2] h-full">
+    <tr class="h-10">
+      <th>Categories</th>
+      <th>Score</th>
     </tr>
     {#each {length: 15} as _, i}
-    <tr>
-      <td>Computer Programming</td>
+    <tr class="h-10">
+      <td>Activity</td>
       <td>24.3%</td>
-      <td>30%</td>
-      <td>40%</td>
-      <td id="average">{((24.3 + 30 + 40)).toFixed(1)}%</td>
     </tr>
     {/each}
+    <tr class="h-10">
+      <td class="font-bold">Average</td>
+      <td class="font-bold">99.4%</td>
+    </tr>
   </table>
 </div>
 
 
 <style>
-.grades {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-}
-
-.table-holder {
-  height: 100%;
-}
-
-#average {
-  font-weight: bold;
-}
-
-table {
-  width: 100%;
-  border-spacing: 0;
-  z-index: -2;
-}
-
-tr {
-  height: 40px;
-}
-
 th {
-  background-color: rgb(49, 49, 49);
+  background-color: #313131;
 }
 
 th:nth-child(even) {
-  background-color: rgb(44, 44, 44);
+  background-color: #2c2c2c;
 }
 
 td {
   padding-left: 10px;
   height: 45px;
-  background-color: rgb(36, 36, 36);
-  border: 1px solid rgb(78, 78, 78);
+  background-color: #242424;
+  border: 1px solid #4e4e4e;
   border-top: 0px;
   border-left: 0px;
   border-right: 0px;
 }
 
 td:nth-child(even) {
-  background-color: rgb(32, 32, 32);
+  background-color: #202020;
 }
 </style>

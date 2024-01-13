@@ -14,8 +14,9 @@
   }
 </script>
 
-<div class="sidebar" class:open={active}>
-  <div class="menus">
+<div class={`fixed mt-[54px] shadow bg-std-semidark w-[150px] h-full transition-all duration-300 ml-[-200px] 
+  ${active ? 'ml-0' : ''}`}>
+  <div class="mt-3 pl-2 pr-2">
     <SideButton text="Home" to="/home">
       <FaHome/>
     </SideButton>
@@ -35,26 +36,7 @@
 </div>
 
 <style>
-.sidebar {
-  margin-top: 54px;
-  position: fixed;
-  background-color: rgb(61, 61, 61);
+.shadow {
   box-shadow: 3px 0 0 rgba(0, 0, 0, 0.2);
-  width: 150px;
-  height: 100%;
-  transition: 300ms;
-  margin-left: -200px;
 }
-
-.menus {
-  margin-top: 12px;
-  padding-left: 8px;
-  padding-right: 8px;
-}
-
-
-.sidebar.open {
-  margin-left: 0px;
-}
-
 </style>

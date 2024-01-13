@@ -20,7 +20,7 @@
 {#if !asButton}
   <div class="container">
     <Checkbox bind:checked={selected}>
-      <div class="info">
+      <div class="flex items-center">
         <div class="icon">
           <MdAccountCircle/>
         </div>
@@ -30,7 +30,7 @@
   <span>{name}</span>
 {:else}
   <button on:click|preventDefault={onClick}>
-    <div class="info">
+    <div class="flex items-center">
       <div class="icon">
         <MdAccountCircle/>
       </div>
@@ -62,15 +62,11 @@
 .container {
   margin-left: 15px;
   display: flex;
+  width: 70px;
   height: 100%;
   text-align: center;
   align-items: center;
   font-size: 16px;
-}
-
-.info {
-  display: flex;
-  align-items: center;
 }
 
 button {

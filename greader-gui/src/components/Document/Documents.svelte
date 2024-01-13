@@ -1,67 +1,24 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
 
-  const click = createEventDispatcher()
+  const click = createEventDispatcher<{view: string[]}>()
 
   export let title = "1ST Year";
   export let name = "BSIT11E";
 </script>
 
-<div class="documents">
-  <div class="documents-holder">
-    <h1>{title}</h1>
-    <p class="documents-title">{name}</p>
+<div class="bg-std-gray rounded shadow w-[250px] h-auto ml-2 mb-3 min-w-[220px] min-h-[120px] text-center">
+  <div class="flex items-center justify-between flex-col">
+    <h1 class="select-none">{title}</h1>
+    <p class="text-xl font-semibold mt-[1px]">{name}</p>
   </div>
-  <button on:click={() => click('view')}>View</button>
+  <button class="select-none text-white p-3 rounded-xl bg-green transition-all duration-300 mb-3 cursor-pointer
+                hover:bg-light-green hover:duration-300" 
+    on:click={() => click('view', [title, name])}>View</button>
 </div>
 
 <style>
-h1 {
-  user-select: none;
-}
-
-button {
-  padding: 10px;
-  border-radius: 10px;
-  color: white;
-  background-color: rgb(61, 139, 74);
-  transition: 300ms;
-  cursor: pointer;
-  margin-bottom: 10px;
-}
-
-button:hover {
-  background-color: rgb(95, 209, 114);
-}
-
-.documents {
-  background-color: rgb(238, 238, 238);
-  border-radius: 4px;
+.shadow {
   box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.2);
-  width: 250px;
-  height: auto;
-  margin-left: 6px;
-  margin-bottom: 10px;
-  min-width: 220px;
-  min-height: 120px;
-  text-align: center;
-}
-
-:global(body.dark-mode) .documents {
-  background-color: rgb(66, 66, 66);
-}
-
-
-.documents-title {
-  font-size: 20px;
-  font-weight: 600;
-  margin-top: 1px;
-}
-
-.documents-holder {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: column;
 }
 </style>

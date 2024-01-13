@@ -14,9 +14,8 @@
 <div class="card" in:fly={{duration: 200, easing: sineOut, x:-200}}>
   <button on:click|preventDefault={onClick} class="add">
     <div class="icon"><FaPlus/></div>
-    <p>Add new students</p>
+    <p class="m-0 text-xl">Add new students</p>
   </button>
-
 </div>
 
 <style>
@@ -50,11 +49,6 @@
   width: 30px;
   height: 30px;
   margin-right: 10px;
-}
-
-p {
-  margin: 0;
-  font-size: 20px;
 }
 
 button {

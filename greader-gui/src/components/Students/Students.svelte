@@ -17,6 +17,9 @@
     collection(FirestoreApp, "students"), 
     orderBy("name", "desc"));
   
+  export let subjectName: string;
+  export let sectionName: string;
+  
   let currentStudentSelected: Students | null = null;
   let studentToSelect : Students | null = null;
 

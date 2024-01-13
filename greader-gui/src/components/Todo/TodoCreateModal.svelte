@@ -6,7 +6,7 @@
   import Breadcrumbs from "../Breadcrumbs/Breadcrumbs.svelte";
   import Crumbs from "../Breadcrumbs/Crumbs.svelte";
   import { writable } from "svelte/store";
-    import { error, success } from "../../composables/toast";
+  import { error, success } from "../../composables/toast";
 
   let inputText = "";
   let descText = "";
@@ -16,6 +16,21 @@
   export let active = false;
   let exiting = false;
 
+  const allMonths = [
+    "January", 
+    "February", 
+    "March", 
+    "April", 
+    "May", 
+    "June", 
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
+
   async function addItem() {
     const calendar = new Date(dateText);
     const createdAt = Date.now();
@@ -24,20 +39,7 @@
     const day = calendar.getUTCDate();
     exiting = true;
 
-    const monthLetter = [
-        "January", 
-        "February", 
-        "March", 
-        "April", 
-        "May", 
-        "June", 
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December"
-    ][month];
+    const monthLetter = allMonths[month];
 
     const todo: Todo = {
       name: inputText,

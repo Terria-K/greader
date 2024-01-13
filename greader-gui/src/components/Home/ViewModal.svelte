@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from "svelte";
   import IoMdClose from "svelte-icons/io/IoMdClose.svelte";
   import { sineOut } from "svelte/easing";
@@ -6,15 +6,17 @@
 
   const close = createEventDispatcher();
 
-  export let noExit = false;
   export let active = false;
+  export let title: string;
 </script>
 
 {#if active}
 <div class="fade-modal" transition:fade={{ duration: 230, easing: sineOut }}>
   <div class="modal" transition:scale={{ duration: 230, easing: sineOut }}>
-{#if !noExit}
-    <div class="corner">
+    <div class="absolute w-full flex justify-center">
+      <p class="font-bold text-lg select-none">{title}</p>
+    </div>
+    <div class="absolute m-[10px]">
       <button class="close-button" on:click={() => {
         close('close');
         active = false;
@@ -22,7 +24,6 @@
         <IoMdClose/>
       </button>
     </div>
-{/if}
     <slot/>
   </div>
 </div>
@@ -49,11 +50,6 @@
   width: 100%;
   height: 100%;
   z-index: 10;
-}
-
-.corner {
-  position: absolute;
-  margin: 10px;
 }
 
 .close-button {

@@ -11,48 +11,21 @@
     click('click');
     navigate(to!, { replace: true });
   }
+  
+  function clicked() {
+    if (to) {
+      toClicked();
+    } else {
+      click('click');
+    }
+  }
 </script>
 
-{#if to}
-<button on:click={toClicked}>
-  <div class="icon">
+<button class="flex mt-2 h-10 text-left bg-transparent text-white shadow-none rounded 
+  w-full transition-all duration-300 items-center cursor-pointer hover:bg-transparent-white" 
+  on:click={clicked}>
+  <div class="mr-1 w-8 h-8">
     <slot/>
   </div>
   <p>{text}</p>
 </button>
-{:else}
-<button on:click={() => click('click')}>
-  <div class="icon">
-    <slot/>
-  </div>
-  <p>{text}</p>
-</button>
-{/if}
-
-
-<style>
-button {
-  margin-top: 8px;
-  height: 40px;
-  display: flex;
-  text-align: left;
-  background-color: transparent;
-  box-shadow: none;
-  color: white;
-  border-radius: 4px;
-  width: 100%;
-  transition: 300ms;
-  align-items: center;
-}
-
-button:hover {
-  cursor: pointer;
-  background-color: rgba(105, 105, 105, 0.788);
-}
-
-.icon {
-  margin-right: 6px;
-  width: 30px;
-  height: 30px;
-}
-</style>

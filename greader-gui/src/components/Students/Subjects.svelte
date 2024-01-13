@@ -2,16 +2,8 @@
   import Subject from "./Subject.svelte";
 
 </script>
-<div class="subjects">
-  <Subject subjectName="Computer Programming"/>
-  <Subject subjectName="Rizal"/>
-  <Subject subjectName="Platform Technology"/>
-  <Subject subjectName="PE"/>
+<div class="h-full overflow-y-auto">
+  <Subject subjectName="Activity"/>
+  <Subject subjectName="Exam"/>
+  <Subject subjectName="Task Performance"/>
 </div>
-
-<style>
-.subjects {
-  overflow-y: auto;
-  height: 100%;
-}
-</style>

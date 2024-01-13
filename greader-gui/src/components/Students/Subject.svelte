@@ -8,16 +8,16 @@
 <button class="box" on:click={() => open = !open}>
   <div class="header">
     <p class="subject-name">{subjectName}</p>
-    <button class="icon" class:open={open} class:close={!open} on:click={() => open = !open}>
+    <div class="icon" class:open={open} class:close={!open}>
       <FaChevronDown/>
-    </button>
+    </div>
   </div>
 </button>
 
 <div class="inside-box" class:box-open={open}>
   {#each {length: 4} as _, i}
   <form class="category" on:submit|preventDefault>
-    <p class="act-name">Activity {i + 1}</p>
+    <p class="act-name">{subjectName} {i + 1}</p>
     <label>
       Score:
       <input type="number">
@@ -91,11 +91,6 @@ p {
   margin-top: 15px;
   width: 32px;
   height: 32px;
-  padding: 0;
-  color: white;
-  background-color: transparent;
-  box-shadow: none;
-  cursor: pointer;
   transition: 300ms;
 }
 
