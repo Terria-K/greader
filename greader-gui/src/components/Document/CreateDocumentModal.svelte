@@ -61,7 +61,7 @@
   <p>Create Document</p>
   <Breadcrumbs bind:state={breadState}>
     <Crumbs title="Information"/>
-    <Crumbs title="Select Courses"/>
+    <Crumbs title="Select Subject"/>
     <Crumbs title="Add Students (Optional)"/>
   </Breadcrumbs>
 

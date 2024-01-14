@@ -14,8 +14,8 @@
   }
 </script>
 
-<div class={`fixed mt-[54px] shadow bg-std-semidark w-[150px] h-full transition-all duration-300 ml-[-200px] 
-  ${active ? 'ml-0' : ''}`}>
+<div class={`fixed mt-[54px] shadow bg-std-semidark w-[150px] h-full transition-all duration-300 
+  ${active ? 'ml-0' : 'ml-[-200px]'}`}>
   <div class="mt-3 pl-2 pr-2">
     <SideButton text="Home" to="/home">
       <FaHome/>

@@ -10,10 +10,10 @@
   import Grades from "./components/Grades/Grades.svelte";
   import Fade from "./components/Fade.svelte";
   import Todo from "./components/Todo/Todo.svelte";
-  import Students from "./components/Students/Students.svelte";
   import Toast from "./components/Toast/Toast.svelte";
   import { toasts } from "./composables/toast";
   import { fly } from "svelte/transition";
+  import Subjects from "./components/Subjects/Subjects.svelte";
 
   $: active = false;
   export let url = "";
@@ -70,8 +70,8 @@
     <Route path="home">
       <Home/>
     </Route>
-    <Route path="students">
-      <Students/>
+    <Route path="subjects">
+      <Subjects/>
     </Route>
     <Route path="todo">
       <Todo/>

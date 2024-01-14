@@ -1,0 +1,61 @@
+<script lang="ts">
+  import FaChevronDown from 'svelte-icons/fa/FaChevronDown.svelte'
+
+  let open = false;
+  export let title: string;
+</script>
+
+
+<button class="flex items-center border-2 border-solid border-white 
+  border-l-0 border-r-0 border-t-0 cursor-pointer 
+  text-white p-0 w-full h-[60px] bg-std-accordion-gray rounded 
+  focus:bg-std-accordion-gray" on:click={() => open = !open}>
+  <div class="m-7 w-full flex justify-between">
+    <p class="font-bold text-xl">{title}</p>
+    <div class="mt-4 w-8 h-8 transition-all duration-300" 
+      class:open={open} 
+      class:close={!open}>
+      <FaChevronDown/>
+    </div>
+  </div>
+</button>
+
+<div class={`bg-std-dark transition-all duration-300 overflow-hidden 
+  ${open ? 'max-h-full ease-out' : 'max-h-0 ease-in'}`}>
+  <slot/>
+</div>
+
+<style>
+
+.open {
+  animation-name: Open;
+  animation-duration: 0.3s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+.close {
+  animation-name: Close;
+  animation-duration: 0.3s;
+  animation-iteration-count: 1;
+  animation-fill-mode: backwards;
+}
+
+@keyframes Open {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}
+
+@keyframes Close {
+  0% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+</style>

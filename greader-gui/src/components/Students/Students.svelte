@@ -240,13 +240,13 @@
 
 .delete-button {
   color: white;
-  background-color: rgb(194, 2, 2, 0.918);
+  background-color: #c20202ea;
   cursor: pointer;
   transition: 300ms;
 }
 
 .delete-button:hover {
-  background-color: rgb(255, 53, 53, 0.918);
+  background-color: #ff3535ea;
 }
 
 .container {

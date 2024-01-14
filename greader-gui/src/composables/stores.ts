@@ -21,13 +21,15 @@ export type Students = {
 
 export type SubjectsCollection = {
     activityScore: Map<string, number>;
-    subject: Subjects;
+    subject: SubjectType;
 }
 
-export type Subjects = {
+export type SubjectType = {
     id: string,
     name: string,
-    activities: { [key: string]: Activity }[]
+    formula: "Basic" | "Percentage" | "Customized",
+    script: string,
+    categories: { [key: string]: Activity }[]
 }
 
 export type Activity = {
