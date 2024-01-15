@@ -6,10 +6,9 @@
 </script>
 
 
-<button class="flex items-center border-2 border-solid border-white 
-  border-l-0 border-r-0 border-t-0 cursor-pointer 
+<button type="button" class="flex items-center cursor-pointer 
   text-white p-0 w-full h-[60px] bg-std-accordion-gray rounded 
-  focus:bg-std-accordion-gray" on:click={() => open = !open}>
+  focus:bg-std-accordion-gray" on:click|preventDefault={() => open = !open}>
   <div class="m-7 w-full flex justify-between">
     <p class="font-bold text-xl">{title}</p>
     <div class="mt-4 w-8 h-8 transition-all duration-300" 
@@ -20,10 +19,14 @@
   </div>
 </button>
 
-<div class={`bg-std-dark transition-all duration-300 overflow-hidden 
-  ${open ? 'max-h-full ease-out' : 'max-h-0 ease-in'}`}>
-  <slot/>
+<div class="grid">
+  <div class={`bg-std-dark transition-all w-full duration-300 overflow-hidden border-white border-solid 
+    border-t-0 border-l-0 border-r-0 border-b-2 rounded-md
+    ${open ? 'max-h-full ease-out' : 'max-h-0 ease-in'}`}>
+    <slot/>
+  </div>
 </div>
+
 
 <style>
 

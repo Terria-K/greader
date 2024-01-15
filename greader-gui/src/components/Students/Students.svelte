@@ -12,6 +12,7 @@
   import InfoTab from "./InfoTab.svelte";
   import Subjects from "./Subjects.svelte";
   import GradesTable from "./GradesTable.svelte";
+  import { error, success } from "../../composables/toast";
 
   let studentCol = query(
     collection(FirestoreApp, "students"), 
@@ -116,7 +117,12 @@
         subjects: student.subjects
       };
       unsavedChanges = false;
-      await updateDoc(docRef, studentUpdate);
+      try {
+        await updateDoc(docRef, studentUpdate);
+        success("Success", "Successfully updated the student's info");
+      } catch (e) {
+        error("Failed", "Failed to update the student's info");
+      }
     }
   }
 
@@ -124,7 +130,13 @@
     if (student) {
       let docRef = doc(FirestoreApp, "students/" + student.id);
       currentStudentSelected = null;
-      await deleteDoc(docRef);
+      try {
+        await deleteDoc(docRef);
+        success("Success", "Successfully dropped a student");
+      } catch (e) {
+        console.error(e);
+        error("Failed", "Failed to drop a student");
+      }
     }
   }
 

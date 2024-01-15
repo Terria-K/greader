@@ -6,8 +6,15 @@
   import type { Unsubscribe } from "firebase/auth";
   import { onDestroy, onMount } from "svelte";
   import type { SubjectType } from "../../composables/stores";
+  import { error, success } from "../../composables/toast";
+    import CreateCategoryModal from "./CreateCategoryModal.svelte";
 
   let customFormulaActive: { active: boolean, subject: SubjectType} = {
+    active: false,
+    subject: null!
+  };
+
+  let categoryActive: { active: boolean, subject: SubjectType} = {
     active: false,
     subject: null!
   };
@@ -42,14 +49,21 @@
       name: customFormulaActive.subject.name,
       id: customFormulaActive.subject.id,
       script: script,
-      formula: "Customized",
-      categories: []
+      formula: customFormulaActive.subject.formula,
+      categories: customFormulaActive.subject.categories
     };
-    await updateDoc(docRef, subjectUpdate);
+    try {
+      await updateDoc(docRef, subjectUpdate);
+      success("Success", "The script has been saved");
+    } catch (e) {
+      console.error(e);
+      error("Failed to save script", "Unexpected error while saving a script");
+    }
   }
 </script>
 
 <FormulaScript bind:active={customFormulaActive} on:close={scriptClose}/>
+<CreateCategoryModal bind:categoryActive={categoryActive}/>
 
 <div class="justify-center pt-16 w-full">
   <div class="flex justify-center mt-10">
@@ -58,7 +72,10 @@
   <div class="h-[450px] bg-std-dark rounded-lg m-5">
     <div class="h-full overflow-y-auto">
       {#each subjects as subject}
-      <Subject subject={subject} bind:customFormulaActive={customFormulaActive}/>
+      <Subject subject={subject} 
+        bind:customFormulaActive={customFormulaActive}
+        bind:categoryActive={categoryActive}
+      />
       {/each}
     </div>
   </div>

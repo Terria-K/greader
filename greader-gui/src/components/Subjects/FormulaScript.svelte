@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { createEventDispatcher, onMount } from "svelte";
+  import { createEventDispatcher } from "svelte";
   import ModalForm from "../Modal/ModalForm.svelte";
   import type { SubjectType } from "../../composables/stores";
 
@@ -8,27 +8,25 @@
   export let active: {active: boolean, subject: SubjectType};
 
   let textAreaRef: HTMLTextAreaElement | null;
-  let value = "";
 
-  onMount(() => {
-    textAreaRef?.addEventListener('keydown', function(e: KeyboardEvent) {
-      if (e.key == "Tab") {
-        e.preventDefault();
+  function tab(e: KeyboardEvent) {
+    if (e.key == "Tab") {
+      e.preventDefault();
 
-        var start = this.selectionStart;
-        var end = this.selectionEnd;
+      var start = textAreaRef!.selectionStart;
+      var end = textAreaRef!.selectionEnd;
 
-        this.value = this.value.substring(0, start) + "\t" + this.value.substring(end);
+      textAreaRef!.value = textAreaRef!.value.substring(0, start) + "\t" + textAreaRef!.value.substring(end);
 
-        this.selectionStart = this.selectionEnd = start + 1;
-      }
-    })
-  });
-
+      textAreaRef!.selectionStart = textAreaRef!.selectionEnd = start + 1;
+    }
+  }
 </script>
 
-<ModalForm bind:active={active.active} on:close={() => close('close', value)}>
+<ModalForm bind:active={active.active} on:close={() => close('close', active.subject.script)}>
   <div class="flex w-full h-full">
-    <textarea bind:this={textAreaRef} bind:value={value} spellcheck="false" class="w-full resize-none m-12 bg-std-dark rounded text-white text-lg"/>
+    <textarea bind:this={textAreaRef} bind:value={active.subject.script} 
+    on:keydown={tab}
+    spellcheck="false" class="w-full resize-none m-12 bg-std-dark rounded text-white text-lg"/>
   </div>
 </ModalForm>

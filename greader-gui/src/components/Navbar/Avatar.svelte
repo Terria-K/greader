@@ -5,24 +5,11 @@
 </script>
 
 {#if url}
-<div class="avatar">
-  <img src={url} alt="avatar"/>
+<div class="flex justify-center items-center">
+  <img class="w-[30px] h-[30px] rounded-[50%]" src={url} alt="avatar"/>
 </div>
 {:else}
-<div class="avatar">
+<div class="flex justify-center items-center">
   <MdAccountCircle/>
 </div>
 {/if}
-
-<style>
-.avatar {
-  justify-content: center;
-  align-items: center;
-  display: flex;
-}
-img {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-}
-</style>

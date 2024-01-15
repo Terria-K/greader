@@ -29,10 +29,15 @@ export type SubjectType = {
     name: string,
     formula: "Basic" | "Percentage" | "Customized",
     script: string,
-    categories: { [key: string]: Activity }[]
+    categories: { [key: string]: Category }
+}
+
+export type Category = {
+    percentage: number
+    activities: Activity[]
 }
 
 export type Activity = {
+    name: string,
     maxScore: number,
-    percentage: number
 }

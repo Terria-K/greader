@@ -1,5 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
+  import { fly } from "svelte/transition";
 
   const click = createEventDispatcher<{click: number}>()
 
@@ -45,7 +46,7 @@
 
   <slot/>
   {#if tooltipShown}
-    <div class="sticky z-[2] w-[150px] p-3 bg-std-semidark rounded text-white mt-2">
+    <div class="sticky z-[2] w-[150px] p-3 bg-std-semidark rounded text-white mt-2" transition:fly>
       {tooltip}
     </div>
   {/if}
